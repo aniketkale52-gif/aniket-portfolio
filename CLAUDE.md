@@ -32,3 +32,11 @@ Whenever I mention a video, or say "check the reference":
 3. Briefly tell me what you saw and your plan, then implement it on the part of the site I name.
 4. Keep my existing design, colors, fonts and animations unless I say otherwise.
 5. If I don't give a file name, use the newest video in `references/`. If I give just a name (like "ankitinteraction"), find the matching file in `references/`.
+
+## Videos on the site (`media/` folder)
+When I add a video to `media/` for the website:
+- Compress it with ffmpeg at good quality: it must look the same, just a smaller file. If I say "keep the original", don't compress.
+- Make a poster frame (a still image shown while the video loads).
+- Silent preview or background clips: remove audio, and set autoplay, muted, loop, playsinline.
+- If I say the video has sound: keep the audio, show play controls, and don't autoplay it.
+- Keep each file under 100 MB (GitHub's limit); ideally a few MB for silent clips.
