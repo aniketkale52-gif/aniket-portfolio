@@ -22,3 +22,12 @@ Experience → Testimonials → Footer (clouds, "Contact me" ticker, floating 3D
 - Keep text colour `#262626` unless a section says otherwise.
 - Respect `prefers-reduced-motion`; every animation has a reduced-motion fallback.
 - Case study pages (coming next) should reuse the same navbar, fonts and tokens.
+
+## Reference videos
+I often put reference videos in the `references/` folder (it is gitignored, so `@` won't find it; I'll type the file name).
+Whenever I mention a video, or say "check the reference":
+1. Extract frames with ffmpeg yourself, without asking me how:
+   `ffmpeg -i references/<file> -vf fps=4 references/frames/<file-name>-%03d.png`
+2. Look through the frames and work out the interaction: what moves, the trigger (hover, scroll, load, mouse move), direction, distance and timing.
+3. Briefly tell me what you saw and your plan, then implement it on the part of the site I name.
+4. Keep my existing design, colors, fonts and animations unless I say otherwise.
