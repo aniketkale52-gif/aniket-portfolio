@@ -31,3 +31,4 @@ Whenever I mention a video, or say "check the reference":
 2. Look through the frames and work out the interaction: what moves, the trigger (hover, scroll, load, mouse move), direction, distance and timing.
 3. Briefly tell me what you saw and your plan, then implement it on the part of the site I name.
 4. Keep my existing design, colors, fonts and animations unless I say otherwise.
+5. If I don't give a file name, use the newest video in `references/`. If I give just a name (like "ankitinteraction"), find the matching file in `references/`.
