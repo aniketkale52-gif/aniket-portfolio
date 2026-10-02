@@ -63,7 +63,8 @@
     gap: 16px;
   }
   .cs-copy h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
-  .cs-copy h3 + p { margin-top: -10px; }
+  .cs-copy > h3 + p { margin-top: -10px; }
+  .cs-stack h3 { margin-bottom: 6px; }
   .cs-list { padding-left: 18px; }
   .cs-list li + li { margin-top: 2px; }
   .cs-label { text-transform: uppercase; }
@@ -127,7 +128,12 @@
   .cs-pair { display: grid; gap: clamp(20px, 3vw, 34px); align-items: start; }
   .cs-pair--narrow-wide { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr); }
   .cs-pair--wide-narrow { grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); }
-  .cs-pair .cs-media { aspect-ratio: auto; height: clamp(260px, 30vw, 384px); }
+  /* Wide box is 16:9 like its image; the narrow box (1 : 1.9 column width) matches
+     its height: 16/9 ÷ 1.9 ≈ 0.9357 */
+  .cs-pair .cs-media { aspect-ratio: 16 / 9; }
+  .cs-pair--narrow-wide > :first-child .cs-media,
+  .cs-pair--wide-narrow > :last-child .cs-media { aspect-ratio: 0.9357; }
+  .cs-media img.is-top { object-position: top; }
 
   /* ---------- Role, meta and stats ---------- */
   .cs-meta { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 16px 24px; margin: 0; }
@@ -171,7 +177,6 @@
   }
   @media (max-width: 640px) {
     .cs-pair--narrow-wide, .cs-pair--wide-narrow { grid-template-columns: minmax(0, 1fr); }
-    .cs-pair .cs-media { height: auto; aspect-ratio: 4 / 3; }
     .cs-meta { grid-template-columns: repeat(2, auto); }
   }
   @media (max-width: 380px) {
@@ -209,7 +214,7 @@
   </header>
 
   <figure class="cs-figure">
-    <div class="cs-media" style="--ratio: 16 / 9">
+    <div class="cs-media">
       <video src="media/roar-showcase.mp4" poster="media/roar-showcase-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="ROAR showcase: every call transcribed and summarized by Leo"></video>
     </div>
   </figure>
@@ -260,8 +265,8 @@
       </div>
     </div>
     <figure class="cs-figure">
-      <div class="cs-media" style="--ratio: 1080 / 608">
-        <span class="cs-placeholder">R.O.A.R banner: Real Operated Assisted Routing</span>
+      <div class="cs-media">
+        <img src="images/roar/roar-banner.webp" alt="R.O.A.R, Real Operated Assisted Routing: call recording and transcript panels over the agent dashboard" loading="lazy" decoding="async">
       </div>
     </figure>
   </section>
@@ -288,8 +293,8 @@
       </div>
     </div>
     <figure class="cs-figure">
-      <div class="cs-media cs-media--board" style="--ratio: 1080 / 572">
-        <span class="cs-placeholder">Research analysis board</span>
+      <div class="cs-media cs-media--board">
+        <img src="images/roar/research-board.webp" alt="Research analysis board comparing calling and transcription UIs from other apps" loading="lazy" decoding="async">
       </div>
       <figcaption>These are the direct or indirect competitors based on the UI Components..</figcaption>
     </figure>
@@ -310,11 +315,11 @@
     </div>
     <div class="cs-pair cs-pair--narrow-wide">
       <figure class="cs-figure">
-        <div class="cs-media"><span class="cs-placeholder">Personas: Jack (agent) and Stephanie (broker)</span></div>
+        <div class="cs-media"><img src="images/roar/personas.webp" alt="Personas: Jack, an agent who lists properties, uploads docs and follows up; Stephanie, a broker who reviews docs, requests info and closes deals" loading="lazy" decoding="async"></div>
         <figcaption>The Persona’s</figcaption>
       </figure>
       <figure class="cs-figure">
-        <div class="cs-media cs-media--board"><span class="cs-placeholder">Persona mapping board</span></div>
+        <div class="cs-media cs-media--board"><img src="images/roar/persona-mapping.webp" alt="Persona mapping board with needs, goals and pain points for Jack and Stephanie" loading="lazy" decoding="async"></div>
         <figcaption>The Persona mapping and how they feel...</figcaption>
       </figure>
     </div>
@@ -331,8 +336,8 @@
       </div>
     </div>
     <figure class="cs-figure">
-      <div class="cs-media cs-media--board" style="--ratio: 1080 / 571">
-        <span class="cs-placeholder">As-Is journey board</span>
+      <div class="cs-media cs-media--board">
+        <img src="images/roar/as-is-journey.webp" alt="As-Is journey map of the current agent and broker communication workflow" loading="lazy" decoding="async">
       </div>
       <figcaption>The As-Is journey is based on the current workflow of the Real Dashboard</figcaption>
     </figure>
@@ -353,11 +358,11 @@
     </div>
     <div class="cs-pair cs-pair--narrow-wide">
       <figure class="cs-figure">
-        <div class="cs-media"><span class="cs-placeholder">Mobile app view</span></div>
+        <div class="cs-media"><img src="images/roar/mobile-app.webp" alt="Hand holding a phone showing a ROAR call and transcript summary in the mobile app" loading="lazy" decoding="async"></div>
         <figcaption>Mobile app view</figcaption>
       </figure>
       <figure class="cs-figure">
-        <div class="cs-media cs-media--board"><span class="cs-placeholder">Insights and pain points board</span></div>
+        <div class="cs-media cs-media--board"><img src="images/roar/insights-board.webp" alt="Board of insights leading to pain points from the research" loading="lazy" decoding="async"></div>
         <figcaption>Insights and pain points as per the findings</figcaption>
       </figure>
     </div>
@@ -378,11 +383,11 @@
     </div>
     <div class="cs-pair cs-pair--wide-narrow">
       <figure class="cs-figure">
-        <div class="cs-media cs-media--board"><span class="cs-placeholder">Use case analysis board</span></div>
+        <div class="cs-media cs-media--board"><img src="images/roar/use-case-board.webp" alt="Use case analysis board mapping agent and broker calling scenarios" loading="lazy" decoding="async"></div>
         <figcaption>We map out the use cases that determine calling and transcribing by the other app Inspo...</figcaption>
       </figure>
       <figure class="cs-figure">
-        <div class="cs-media"><span class="cs-placeholder">Call feature in the app</span></div>
+        <div class="cs-media"><img src="images/roar/call-feature.webp" alt="Phone showing the transactions screen where the call feature was first introduced" loading="lazy" decoding="async"></div>
         <figcaption>The first initiation of the call feature in the app</figcaption>
       </figure>
     </div>
@@ -400,8 +405,8 @@
       </div>
     </div>
     <figure class="cs-figure">
-      <div class="cs-media cs-media--board" style="--ratio: 1080 / 607">
-        <span class="cs-placeholder">To-Be journey board</span>
+      <div class="cs-media cs-media--board">
+        <img src="images/roar/to-be-journey.webp" alt="To-Be journey map for Jack and Stephanie with ROAR calls, recording and summaries" loading="lazy" decoding="async">
       </div>
       <figcaption>As per the research the To-be journey maps out</figcaption>
     </figure>
@@ -421,11 +426,11 @@
     </div>
     <div class="cs-pair cs-pair--wide-narrow">
       <figure class="cs-figure">
-        <div class="cs-media cs-media--board"><span class="cs-placeholder">MoSCoW prioritisation board</span></div>
+        <div class="cs-media cs-media--board"><img src="images/roar/moscow-board.webp" alt="MoSCoW prioritisation board defining the ROAR MVP scope" loading="lazy" decoding="async"></div>
         <figcaption>We then Initialize the MOSCoW research and made MVP Scope</figcaption>
       </figure>
       <figure class="cs-figure">
-        <div class="cs-media"><span class="cs-placeholder">Transcribed phone call</span></div>
+        <div class="cs-media"><img class="is-top" src="images/roar/transcribed-call.webp" alt="Recorded phone call card with an AI summary transcribed by Leo" loading="lazy" decoding="async"></div>
         <figcaption>Transcribed phone call</figcaption>
       </figure>
     </div>
@@ -441,8 +446,8 @@
       </div>
     </div>
     <figure class="cs-figure">
-      <div class="cs-media cs-media--board" style="--ratio: 1080 / 608">
-        <span class="cs-placeholder">Information architecture board</span>
+      <div class="cs-media cs-media--board">
+        <img src="images/roar/information-architecture.webp" alt="Information architecture flow from agent and broker to call or voice memo, transcription and saved ROARcording" loading="lazy" decoding="async">
       </div>
       <figcaption>Information Architecture of the Agent&lt;&gt;Broker when ROAR is implemented</figcaption>
     </figure>
