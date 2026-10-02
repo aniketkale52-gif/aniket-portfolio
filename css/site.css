@@ -1,0 +1,322 @@
+/* Shared by every page: design tokens, navbar and footer.
+   Page-specific styles live in each page's own <style> block. */
+:root {
+  --canvas: #E3E3FF;
+  --cloud: #FFF9F1;
+  --ink: #262626;
+  --contact-ink: #D1D1F0;
+  --font-display: "Goldman", "Arial Black", system-ui, sans-serif;
+  --font-body: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --max-width: 1920px;
+  --gutter: clamp(20px, 6vw, 120px);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  background: var(--canvas);
+  /* Tall enough for the cloud frame and the card; measured from the design */
+  min-height: max(32vw, 600px);
+}
+.footer-clouds { position: absolute; inset: 0; pointer-events: none; }
+.footer-cloud { position: absolute; display: block; max-width: none; height: auto; }
+/* Cream cloud: about 110% of the page width, centred, so its ends just reach the sides */
+.footer-cloud-cream { left: -6vw; top: 2.2vw; width: 109.9vw; aspect-ratio: 2870 / 652; }
+.footer-cloud-cream path { fill: var(--cloud); }
+/* Lavender cloud sits on top and a little lower, trimming the cream to a band */
+.footer-cloud-sky { left: -5.7vw; top: 4.2vw; width: 109.5vw; aspect-ratio: 2747 / 754; }
+.footer-cloud-sky path { fill: var(--canvas); }
+.footer-stage { position: relative; z-index: 1; min-height: inherit; --footer-line: max(19.6vw, 200px); }
+
+/* "Contact me ✦" ticker: sits across the lower cloud tails, as in the design */
+.contact-ticker {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--footer-line);
+  transform: translateY(-50%);
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.contact-track {
+  display: flex;
+  width: max-content;
+  animation: contact-ticker 40s linear infinite;
+}
+.contact-group { display: flex; align-items: center; flex-shrink: 0; }
+.contact-word {
+  padding-right: 40px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(56px, 7.3vw, 146px);
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--contact-ink);
+  white-space: nowrap;
+}
+.contact-spark {
+  flex-shrink: 0;
+  width: clamp(28px, 3.6vw, 72px);
+  height: auto;
+  margin-right: 40px;
+}
+.contact-spark path { fill: var(--contact-ink); }
+@keyframes contact-ticker { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .contact-track { animation: none; } }
+
+/* Character card: centred on the ticker line, lifted off the "ground" */
+.footer-card {
+  position: absolute;
+  left: 50%;
+  top: var(--footer-line);
+  width: clamp(240px, 13.4vw, 340px);
+  transform: translate(-50%, calc(-50% - 10px));
+  z-index: 2;
+}
+.footer-card-float { position: relative; z-index: 1; animation: card-bob 5.6s ease-in-out infinite; }
+.footer-card-tilt { animation: card-tilt 8.4s ease-in-out infinite; transform-origin: 50% 60%; }
+.footer-card-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  /* Layered shadow in the page's indigo, so it reads as depth rather than grey dirt */
+  filter:
+    drop-shadow(0 1px 1px rgba(34, 32, 78, 0.22))
+    drop-shadow(0 6px 10px rgba(34, 32, 78, 0.16))
+    drop-shadow(0 18px 28px rgba(34, 32, 90, 0.18))
+    drop-shadow(0 42px 60px rgba(40, 36, 110, 0.22));
+}
+/* Floating: a gentle rise and fall, with a slower ±2° sway on its own rhythm */
+@keyframes card-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+@keyframes card-tilt { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+@keyframes ground-breathe {
+  0%, 100% { transform: scaleX(1); opacity: 1; }
+  50% { transform: scaleX(0.86); opacity: 0.7; }
+}
+
+/* Card buttons: on hover the face darkens and a thick cream lip shows along the bottom */
+.card-btn { cursor: pointer; outline: none; }
+.card-btn-face { fill: transparent; transition: fill 0.18s ease; }
+.card-btn-resume .card-btn-face { fill: #121212; }
+.card-btn-lip { fill: #FFF9F1; opacity: 0; transform: translateY(0); transition: opacity 0.18s ease, transform 0.18s ease; }
+.card-btn-body { transition: transform 0.18s ease; }
+.card-btn:hover .card-btn-face, .card-btn:focus-visible .card-btn-face { fill: #0B0B0B; }
+.card-btn:hover .card-btn-lip, .card-btn:focus-visible .card-btn-lip { opacity: 1; transform: translateY(2.5px); }
+.card-btn:hover .card-btn-body, .card-btn:focus-visible .card-btn-body { transform: translateY(-1px); }
+.card-btn:active .card-btn-body { transform: translateY(0.5px); }
+.card-btn:active .card-btn-lip { transform: translateY(0.5px); }
+
+/* Inner hover light (from the reference): a soft lavender glow rising from the bottom
+   edge and tiny cream specks drifting up, clipped inside each button */
+.card-btn-fx { opacity: 0; transition: opacity 0.3s ease; pointer-events: none; }
+.card-btn:hover .card-btn-fx, .card-btn:focus-visible .card-btn-fx { opacity: 1; }
+.card-btn-glow { transform: translateY(6px); transition: transform 0.35s ease; }
+.card-btn:hover .card-btn-glow, .card-btn:focus-visible .card-btn-glow { transform: translateY(0); }
+.card-btn-speck {
+  fill: #FFF9F1;
+  opacity: 0;
+  animation: btn-speck 2.4s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.card-btn:hover .card-btn-speck, .card-btn:focus-visible .card-btn-speck { animation-play-state: running; }
+@keyframes btn-speck {
+  0% { opacity: 0; transform: translateY(2px); }
+  35% { opacity: 0.9; }
+  70% { opacity: 0.35; }
+  100% { opacity: 0; transform: translateY(-7px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-btn-speck { animation: none; opacity: 0.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-card-float, .footer-card-tilt, .footer-card-ground { animation: none; }
+  .footer-card-3d { transform: none; }
+  .card-shimmer { animation: none; opacity: 0; }
+}
+
+/* 3D layer: tilts toward the cursor, lifts on hover (driven by the script below) */
+.footer-card-tilt { perspective: 1100px; }
+.footer-card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  transform:
+    translate3d(var(--cx, 0px), var(--cy, 0px), 0)
+    rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg))
+    scale(var(--cs, 1));
+}
+.footer-card-3d .footer-card-svg { position: relative; transform: translateZ(0.5px); }
+/* Stacked slabs behind the face give the card a real edge when it tilts */
+.card-edge {
+  position: absolute;
+  inset: 0;
+  border-radius: 7.06% / 5.71%;
+  background: #1B1B1B;
+  transform: translateZ(var(--z));
+}
+.card-edge:first-child { background: #2E2E2E; }
+/* Depth layers: same drawing split in three, lifted apart so they shift against each
+   other as the card tilts. Each is scaled down a hair so all three line up at rest. */
+.card-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.card-layer-art {
+  transform: translateZ(9px) scale(0.9918);
+  filter: drop-shadow(0 2px 3px rgba(18, 16, 40, 0.28));
+}
+.card-layer-top {
+  transform: translateZ(16px) scale(0.9855);
+  filter: drop-shadow(0 2px 2px rgba(18, 16, 40, 0.30));
+}
+/* Only the three buttons take the mouse; the wrappers and layers let it pass through */
+.footer-card, .footer-card-float, .footer-card-tilt, .footer-card-3d,
+.footer-card-3d .footer-card-svg, .card-edge { pointer-events: none; }
+.card-layer-top .card-btn { pointer-events: auto; }
+
+/* Light spot that follows the cursor across the card face */
+.card-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: 7.06% / 5.71%;
+  pointer-events: none;
+  transform: translateZ(17px) scale(0.9846);
+  background:
+    radial-gradient(circle at var(--gx, 50%) var(--gy, 30%), rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.16) 26%, transparent 52%),
+    linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, 0.14) 48%, transparent 58%);
+  mix-blend-mode: overlay;
+  opacity: var(--go, 0);
+}
+
+/* Silver shimmer: a faint diagonal band that sweeps from the top-left corner to the
+   bottom-right, then rests before the next pass */
+.card-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: 7.06% / 5.71%;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translateZ(17.5px) scale(0.9841);
+  background-image: linear-gradient(135deg,
+    transparent 38%,
+    rgba(214, 220, 232, 0.12) 44%,
+    rgba(236, 240, 248, 0.38) 49%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(236, 240, 248, 0.38) 51%,
+    rgba(214, 220, 232, 0.12) 56%,
+    transparent 62%);
+  background-size: 300% 300%;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  mix-blend-mode: screen;
+  opacity: 0.75;
+  animation: card-shimmer 5s ease-in-out infinite;
+}
+@keyframes card-shimmer {
+  0%   { background-position: 100% 100%; }
+  36%  { background-position: 0% 0%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* Soft contact shadow on the "ground" below, which sells the lift */
+.footer-card-ground {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: -42px;
+  height: 26px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(34, 32, 90, 0.34), rgba(34, 32, 90, 0.12) 60%, transparent);
+  filter: blur(4px);
+  z-index: 0;
+  animation: ground-breathe 5.6s ease-in-out infinite;
+}
+
+/* ---------- Navbar ---------- */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+section[id], footer[id] { scroll-margin-top: 110px; }
+
+.site-nav {
+  position: fixed;
+  top: calc(env(safe-area-inset-top, 0px) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  width: min(1180px, calc(100% - 2 * var(--gutter)));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 10px 10px 16px;
+  /* Cream glass: see-through enough for the blur to show what passes beneath */
+  background: rgba(255, 249, 241, 0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(1.15);
+  backdrop-filter: blur(16px) saturate(1.15);
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
+.site-nav.is-scrolled {
+  background: rgba(255, 249, 241, 0.62);
+  box-shadow: 0 10px 30px -12px rgba(34, 32, 90, 0.28);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .site-nav, .site-nav.is-scrolled { background: var(--cloud); }
+}
+
+/* Logo: shown in greyscale "luminosity" so it reads as a soft, slightly vintage mark */
+.nav-logo { display: block; flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%; }
+.nav-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Greyscale + tone flip: the dark disc turns light grey and the neon lettering turns
+     graphite, like a faded silver stamp */
+  filter: grayscale(1) invert(0.92) contrast(0.85) brightness(1.02);
+  mix-blend-mode: luminosity;
+  opacity: 0.95;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+.nav-logo:hover img { filter: grayscale(1) invert(0.92) contrast(1.05) brightness(0.98); opacity: 1; }
+
+.nav-links { display: flex; align-items: center; gap: clamp(8px, 1.6vw, 24px); }
+.nav-link, .nav-cta {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1;
+  text-decoration: none;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.nav-link { padding: 12px 10px; border-radius: 999px; transition: background-color 0.2s ease; }
+.nav-link:hover { background: rgba(38, 38, 38, 0.06); }
+.nav-cta {
+  padding: 15px 22px;
+  background: var(--ink);
+  color: var(--cloud);
+  border-radius: 999px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -6px rgba(38, 38, 38, 0.5); }
+.nav-logo:focus-visible, .nav-link:focus-visible, .nav-cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+@media (max-width: 560px) {
+  .site-nav { padding: 8px 8px 8px 12px; }
+  .nav-link { display: none; }
+  .nav-cta { padding: 12px 16px; font-size: 14px; }
+  .nav-logo { width: 34px; height: 34px; }
+}

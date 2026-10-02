@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Aniket Kale · UI UX Designer, Product Designer, CRO Expert</title>
-<meta name="description" content="Aniket Kale is a UI/UX and product designer who untangles messy problems and turns them into experiences that just make sense, blending research, visual design, CRO and AI.">
-<meta name="theme-color" content="#E3E3FF">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Aniket Kale · UI UX Designer, Product Designer, CRO Expert">
-<meta property="og:description" content="Portfolio of Aniket Kale: case studies, experience and contact.">
+<title>ROAR · Case Study · Aniket Kale</title>
+<meta name="description" content="ROAR: a secure calling experience inside the agent dashboard, with number masking, call recordings and AI-powered transcripts. A case study by Aniket Kale.">
+<meta name="theme-color" content="#FFF9F1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROAR: Smarter Conversations, Seamless Collaboration">
+<meta property="og:description" content="A case study by Aniket Kale.">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,1018 +17,458 @@
 <!-- Shared tokens, navbar and footer -->
 <link rel="stylesheet" href="css/site.css">
 <style>
-  /* Layout: a full-screen cloud frame. Cream covers the whole first screen,
-     with a cloud-edged gap in the middle where the lavender sky shows through. */
+  /* ---------- Case study page ---------- */
   :root {
-    /* Sparkle colours (stand-ins until the final palette arrives) */
-    --spark-1: #E4DDF0;
-    --spark-2: #BDE8E2;
-    --spark-3: #F6DCE3;
-    /* Stat number fills (sampled from the design) */
-    --num-1: #FCE8E8;
-    --num-2: #E0E4FC;
-    --num-3: #E4F0FC;
-    --num-4: #D8F4F0;
-    /* Work card panel tints */
-    --panel-1: #FBEBEA;
-    --panel-2: #DBF5F0;
-    --panel-3: #FFE3FB;
-    --panel-4: #E3F2FF;
-    --stat-stroke: #7D7D7D;
-    --rail: #B9B9DA;
-    --quote-fill: #FFE7A9;
-    --avatar-empty: #D1D1E7;
-    --muted-on-ink: #B8B8B8;
-
-    /* Cloud size. It grows with the screen width (110% of it, so the gap is a bit
-       bigger than the original artwork), but never so large that the bottom of
-       the gap drops out of view (the bottom of the cloud band stays near 92% of the screen height). */
-    --cloud-width: min(110vw, 180vh);
+    --cs-width: 1180px;          /* lines up with the navbar */
+    --cs-section-gap: clamp(72px, 9vw, 140px);
+    --cs-radius: 24px;
+    --cs-board: #F4F4F4;         /* dotted "whiteboard" behind research images */
+    --cs-dot: #C9C9C9;
     color-scheme: light;
   }
 
-  @supports (height: 100svh) {
-    :root { --cloud-width: min(110vw, 180svh); }
-  }
-
-  /* Tall, narrow screens (phones): a little wider so the gap stays readable,
-     while the cream still meets the top corners. */
-  @media (max-aspect-ratio: 1/1) {
-    :root { --cloud-width: 130vw; }
-  }
-
-  html, body { height: 100%; }
-
   body {
     margin: 0;
-    background: var(--canvas);
+    background: var(--cloud);
     color: var(--ink);
+    font-family: var(--font-body);
     overflow-x: hidden;
   }
 
-  .hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    background: var(--canvas);
+  .cs {
+    width: min(var(--cs-width), calc(100% - 2 * var(--gutter)));
+    margin-inline: auto;
+    padding-top: clamp(120px, 12vw, 150px);
+    padding-bottom: var(--cs-section-gap);
   }
 
-  @supports (height: 100svh) {
-    .hero { height: 100svh; }
-  }
+  /* Zero-specificity reset so component margins below always win */
+  :where(.cs) p, :where(.cs) ul { margin: 0; }
+  .cs strong { font-weight: 600; }
 
-  /* The scene is the cloud's box. Everything inside is placed as a share of
-     its width, measured from the reference design (cloud = 2000px wide). */
-  .scene {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: var(--cloud-width);
-    aspect-ratio: 1200 / 702;
-    pointer-events: none;
-  }
-
-  .cloud {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    max-width: none;
-    height: auto;
-    overflow: visible;
-  }
-
-  /* Stacking, back to front: cream band, name, portrait, lavender layer, small clouds */
-  .cloud-back  { z-index: 1; }
-  .intro       { z-index: 2; }
-  .portrait    { z-index: 3; }
-  .cloud-front { z-index: 4; }
-  .decor       { z-index: 5; }
-
-  /* Portrait: measured from the reference design (head overlaps the lower
-     middle of ANIKET, shirt disappears behind the lavender clouds) */
-  .portrait {
-    position: absolute;
-    left: 32.2%;
-    top: calc(var(--cloud-width) * 0.1935);
-    width: 30.9%;
-    max-width: none;
-    user-select: none;
-  }
-  .portrait img { display: block; width: 100%; height: auto; max-width: none; }
-  .portrait .eyes { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; }
-  .pupil { will-change: transform; }
-
-  .decor {
-    position: absolute;
-    height: auto;
-    max-width: none;
-    overflow: visible;
-  }
-  /* Cursor drift: the script moves these a few pixels; will-change keeps it smooth */
-  [data-depth] { will-change: transform; }
-
-  .decor-sun    { left: 72.85%; top: calc(var(--cloud-width) * 0.0950); width: 16.10%; }
-  .decor-breeze { left:  6.90%; top: calc(var(--cloud-width) * 0.2380); width: 10.95%; }
-  .decor-puffs  { left: 84.25%; top: calc(var(--cloud-width) * 0.3055); width:  7.65%; }
-  .decor-drift  { left:  8.90%; top: calc(var(--cloud-width) * 0.4730); width: 18.60%; }
-  .decor-bank   { left: 75.00%; top: calc(var(--cloud-width) * 0.4615); width: 18.50%; }
-
-  .cloud .cloud-cream { fill: var(--cloud); }
-  .cloud .cloud-sky { fill: var(--canvas); }
-
-  /* Name block: sized from the cloud width so it scales with the cloud.
-     ANIKET spans about 54.5% of the cloud; the script below fine-tunes it. */
-  .intro {
-    position: absolute;
-    top: calc(var(--cloud-width) * 0.1415);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    width: max-content;
-    color: var(--ink);
-  }
-
-  .intro-roles {
-    margin: 0 0 calc(var(--cloud-width) * 0.006);
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: max(11px, calc(var(--cloud-width) * 0.011));
-    line-height: 1.3;
-    letter-spacing: 0.01em;
-    align-self: flex-start;
-  }
-
-  .intro-name {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    font-weight: 400;
-  }
-
-  .intro-first {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: calc(var(--cloud-width) * 0.094);
-    line-height: 0.85;
-    letter-spacing: 0;
-    text-transform: uppercase;
-    white-space: nowrap;
-    width: max-content;
-    align-self: flex-start;
-  }
-
-  .intro-last {
-    margin-top: calc(var(--cloud-width) * 0.012);
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: max(16px, calc(var(--cloud-width) * 0.0195));
-    line-height: 1;
-    align-self: flex-end;
-  }
-
-  /* Skills strip */
-  .marquee {
-    position: relative;
-    overflow: hidden;
-    padding-block: clamp(24px, 4vw, 64px);
-    background: var(--canvas);
-  }
-
-  .marquee-strip {
-    width: 110vw;
-    margin-left: -5vw;
-    transform: rotate(-3deg);
-    background: var(--cloud);
-    border-block: 1.5px solid var(--ink);
-    overflow: hidden;
-  }
-
-  .marquee-track {
-    display: flex;
-    width: max-content;
-    animation: marquee 45s linear infinite;
-  }
-
-  .marquee-group {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-  }
-
-  .marquee-item {
-    padding-inline: 1.1em;
-    padding-block: 0.75em;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 1.4;
-    color: var(--ink);
-    white-space: nowrap;
-  }
-
-  .spark {
-    width: 26px;
-    height: 26px;
-    flex-shrink: 0;
-    overflow: visible;
-  }
-  .spark path { stroke: var(--ink); stroke-width: 0.6; stroke-linejoin: round; }
-
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .marquee-track { animation: none; }
-  }
-
-  /* About: bio + stat pills */
-  .about {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: clamp(32px, 4vw, 64px);
-    padding-block: 0 clamp(16px, 3vw, 48px);
-  }
-
-  .bio {
-    margin: 0;
-    max-width: 49em;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: clamp(18px, 1.25vw + 8px, 24px);
-    line-height: 1.4;
-    color: var(--ink);
-    text-align: center;
-    text-wrap: pretty;
-  }
-
-  .stats {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    max-width: 1120px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: clamp(16px, 1.8vw, 32px);
-  }
-
-  /* Pills hug their content: equal padding left and right, no dead space */
-  .stat {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    padding: 20px 32px;
-    background: var(--cloud);
-    border: 1.5px solid var(--ink);
-    border-radius: 999px;
-  }
-
-  .stat-num {
-    flex-shrink: 0;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(28px, 2vw, 38px);
-    line-height: 1.2;
-    color: var(--num);
-    -webkit-text-stroke: 0.5px var(--ink);
-    font-variant-numeric: tabular-nums;
-  }
-
-  .stat-label {
-    white-space: nowrap;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  /* Tablets: two pills per row */
-  @media (max-width: 1100px) {
-    .stats { max-width: 560px; }
-  }
-
-  /* Phones: one pill per row, all the same width, content centred */
-  @media (max-width: 480px) {
-    .stats { flex-direction: column; align-items: stretch; max-width: 300px; }
-  }
-
-  /* ---------- Work ---------- */
-  .work {
-    position: relative;
-    margin-top: clamp(40px, 8vw, 120px);
-  }
-
-  /* The heading's stage: one screen tall, pinned while the cards pass over it */
-  .work-pin {
-    position: sticky;
-    top: 0;
-    height: 100vh;
+  /* Two columns: heading (or intro) on the left, copy on the right */
+  .cs-row {
     display: grid;
-    place-items: center;
-    z-index: 0;
-    pointer-events: none;
-  }
-  @supports (height: 100svh) { .work-pin { height: 100svh; } }
-
-  .work-heading {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(48px, 3vw + 18px, 74px);
-    line-height: 1.2;
-    color: var(--ink);
-    transform: scale(var(--work-scale, 1));
-    transform-origin: center;
-    will-change: transform;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+    column-gap: clamp(32px, 6vw, 100px);
+    row-gap: 20px;
+    align-items: start;
   }
 
-  /* Cards start one screen up so they slide over the pinned heading */
-  .work-cards {
-    position: relative;
-    z-index: 1;
-    margin-top: -100vh;
-    padding-top: 75vh;
-    padding-bottom: 45vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 55vh;
-  }
-  @supports (height: 100svh) {
-    .work-cards { margin-top: -100svh; padding-top: 75svh; padding-bottom: 45svh; gap: 55svh; }
-  }
-
-  .work-card {
-    position: relative;
-    width: 100%;
-    max-width: 1190px;
-    display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
-    gap: clamp(14px, 1.6vw, 22px);
-    transform: rotate(var(--tilt, 0deg)) scale(var(--grow, 1));
-    transform-origin: center;
-    will-change: transform;
-  }
-
-  .work-media {
-    position: relative;
-    min-height: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 24px;
-    overflow: hidden;
-    background: var(--panel);
-    border: 1.5px solid var(--ink);
-  }
-  /* Case study clip: fills the box edge to edge, cropped from the centre */
-  .work-media video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
-
-  /* Whole card is a link to its case study (an invisible layer over the card) */
-  .work-link { position: absolute; inset: 0; z-index: 2; border-radius: 24px; }
-  .work-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
-
-  .work-panel {
-    min-width: 0;
+  .cs-copy {
+    font-size: 15px;
+    line-height: 1.4;
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding: clamp(20px, 2vw, 28px);
-    background: var(--panel);
-    border: 1.5px solid var(--ink);
-    border-radius: 24px;
   }
+  .cs-copy h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
+  .cs-copy h3 + p { margin-top: -10px; }
+  .cs-list { padding-left: 18px; }
+  .cs-list li + li { margin-top: 2px; }
+  .cs-label { text-transform: uppercase; }
+  .cs-stack { display: flex; flex-direction: column; }
 
-  .tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
-  .tag {
-    padding: 8px 13px;
-    background: #FFFFFF;
-    border-radius: 12px;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  .work-title {
-    margin: 6px 0 0;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 1.2;
-    color: var(--ink);
-    text-wrap: balance;
-  }
-
-  .work-desc {
-    margin: -6px 0 0;
-    max-width: 44em;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.35;
-    color: var(--ink);
-  }
-
-  .card-stats {
-    margin-top: auto;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(12px, 1.4vw, 20px);
-  }
-  .card-stat {
-    min-width: 0;
-    display: flex;
+  /* ---------- Intro ---------- */
+  .cs-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+  .cs-tag {
+    display: inline-flex;
     align-items: center;
-    gap: 14px;
-    padding: 16px 20px;
-    background: #FFF9F1;
-    border: 1px solid var(--stat-stroke);
-    border-radius: 20px;
-  }
-  .card-stat-num {
-    flex-shrink: 0;
-    padding-right: 14px;
-    border-right: 1px solid color-mix(in srgb, var(--stat-stroke) 45%, transparent);
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 38px;
-    line-height: 1.5;
-    letter-spacing: -0.007em;
-    color: var(--ink);
-    font-variant-numeric: tabular-nums;
-  }
-  .card-stat-label {
-    min-width: 0;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  /* Narrow screens: image on top, details below */
-  @media (max-width: 820px) {
-    .work-card { grid-template-columns: 1fr; }
-    .work-media { min-height: 0; }
-    .card-stat { padding: 12px 14px; gap: 12px; }
-    .card-stat-num { padding-right: 12px; }
-  }
-  @media (max-width: 420px) {
-    .card-stats { grid-template-columns: 1fr; }
-  }
-
-  /* ---------- "View more" cursor pill (case study cards, mouse only) ---------- */
-  .view-cursor {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 50;
-    pointer-events: none;
-    opacity: 0;
-    transform: translate3d(-200px, -200px, 0);
-  }
-  .view-cursor-pill {
-    position: relative;
-    display: block;
-    width: 178px;
-    overflow: hidden;
-    padding-block: 12px;
-    background: var(--cloud);
+    gap: 6px;
+    padding: 6px 12px;
     border: 1.5px solid var(--ink);
     border-radius: 999px;
-    transform: translate(-50%, -50%) scale(0.4);
-    transition: transform 0.28s cubic-bezier(.2,.8,.2,1);
-  }
-  .view-cursor.is-on { opacity: 1; }
-  .view-cursor.is-on .view-cursor-pill { transform: translate(-50%, -50%) scale(1); }
-
-  .view-cursor-track {
-    display: flex;
-    width: max-content;
-    animation: view-ticker 9s linear infinite;
-  }
-  .view-cursor-track span {
-    padding-left: 0.6em;
-    font-family: var(--font-body);
+    background: #fff;
+    font-size: 14px;
     font-weight: 500;
-    font-size: 15px;
-    line-height: 1;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink);
-    white-space: nowrap;
-  }
-  @keyframes view-ticker { to { transform: translateX(-50%); } }
-
-  @media (hover: hover) and (pointer: fine) {
-    .work-card, .work-link { cursor: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .view-cursor-track { animation: none; }
-  }
-
-  /* ---------- Experience ---------- */
-  .experience {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: clamp(28px, 3vw, 48px);
-    padding-block: clamp(24px, 4vw, 64px);
-  }
-  .exp-heading {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(48px, 3vw + 18px, 74px);
     line-height: 1.2;
-    color: var(--ink);
   }
-  .exp-list {
-    list-style: none;
+  .cs-tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--canvas); }
+
+  .cs-title {
     margin: 0;
-    padding: 0;
-    width: 100%;
-    max-width: 960px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    font-size: clamp(24px, 2vw, 28px);
+    font-weight: 600;
+    line-height: 1.2;
+    max-width: 20em;
   }
-  .exp-item {
-    --exp-fg: var(--ink);
-    --exp-soft: var(--ink);
-    --exp-meta: var(--ink);
-    --cc-tile: #222222;
-    --exp-rail: #A7A7CF;
-    display: grid;
-    grid-template-columns: 236px minmax(0, 1fr);
-    column-gap: 20px;
-    padding: 16px 20px 14px 20px;
-    border-radius: 16px;
-    color: var(--exp-fg);
-  }
-  /* The current role is highlighted; the others stay plain */
-  .exp-item.is-current {
-    --exp-fg: var(--cloud);
-    --exp-soft: var(--muted-on-ink);
-    --exp-meta: var(--muted-on-ink);
-    --cc-tile: #3A3A3A;
-    --exp-rail: #6B6B6B;
-    background: var(--ink);
-  }
-  .exp-item.is-current .exp-logo-inferente { filter: invert(1) hue-rotate(180deg); }
 
-  .exp-brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
+  /* ---------- Figures ---------- */
+  .cs-figure { margin: 0; display: flex; flex-direction: column; gap: 18px; }
+  .cs-media {
+    position: relative;
+    overflow: hidden;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--cs-radius);
+    background: var(--cs-board);
+    aspect-ratio: var(--ratio, 16 / 9);
   }
-  /* Dotted rail under each logo */
-  .exp-brand::after {
-    content: "";
-    flex: 1;
-    min-height: 60px;
-    width: 1.5px;
-    /* 3px dash, 3px gap */
-    background: repeating-linear-gradient(to bottom, var(--exp-rail) 0 3px, transparent 3px 6px);
+  /* Dotted whiteboard texture for research boards */
+  .cs-media--board {
+    background-color: var(--cs-board);
+    background-image: radial-gradient(var(--cs-dot) 1px, transparent 1.2px);
+    background-size: 22px 22px;
   }
-  .exp-item:last-child .exp-brand::after { display: none; }
-
-  .exp-logo {
+  .cs-media img, .cs-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* Placeholder label until the real image is added */
+  .cs-placeholder {
+    position: absolute;
+    inset: 0;
     display: grid;
     place-items: center;
-    min-height: 40px;
-    color: var(--exp-fg);
-  }
-  .exp-logo-svg { display: block; width: 156px; height: auto; }
-  .exp-logo-img { display: block; height: auto; max-width: 100%; }
-  .exp-logo-real { width: 90px; }
-  .exp-logo-img[alt="OnePixll"] { width: 132px; }
-  .exp-logo-inferente { width: 170px; }
-
-  .exp-body { min-width: 0; display: flex; flex-direction: column; }
-  .exp-role {
-    margin: 0 0 8px;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 1.3;
-    color: var(--exp-fg);
-  }
-  .exp-company, .exp-meta {
-    margin: 0;
-    font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.5;
-    color: var(--exp-soft);
-  }
-  .exp-dot { margin-inline: 8px; }
-  .exp-meta { margin-top: 6px; font-weight: 500; color: var(--exp-meta); }
-  .exp-desc {
-    margin: 16px 0 0;
-    max-width: 44em;
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.3;
-    color: var(--exp-fg);
-  }
-
-  @media (max-width: 720px) {
-    .exp-item { grid-template-columns: 1fr; row-gap: 12px; }
-    .exp-brand { align-items: flex-start; }
-    .exp-brand::after { display: none; }
-  }
-
-  /* ---------- Testimonials ---------- */
-  .testimonials {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-block: clamp(64px, 10vw, 140px) clamp(32px, 5vw, 72px);
+    padding: 16px;
     text-align: center;
-  }
-  .tm-quote {
-    width: 40px;
-    height: 40px;
-    margin-bottom: 20px;
-    overflow: visible;
-  }
-  .tm-quote path { fill: var(--quote-fill); stroke: var(--ink); stroke-width: 0.35; stroke-linejoin: round; }
-
-  .tm-figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 22px; }
-  .tm-text {
-    margin: 0;
-    max-width: 30em;
-    font-family: var(--font-body);
-    font-style: italic;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 1.4;
-    letter-spacing: -0.3px;
-    color: var(--ink);
-    text-wrap: balance;
-    transition: opacity 0.25s ease;
-  }
-  .tm-cite { display: flex; flex-direction: column; gap: 2px; transition: opacity 0.25s ease; }
-  .tm-name, .tm-role {
-    font-family: var(--font-body);
-    font-style: italic;
     font-size: 14px;
-    color: var(--ink);
+    color: rgba(38, 38, 38, 0.55);
   }
-  .tm-name { font-weight: 600; line-height: 1.3; }
-  .tm-role { font-weight: 400; line-height: 1.5; }
-  .is-swapping .tm-text, .is-swapping .tm-cite { opacity: 0; }
+  .cs-figure figcaption { font-size: 15px; line-height: 1.4; text-align: center; }
 
-  .tm-avatars {
-    list-style: none;
-    margin: 24px 0 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .tm-avatar {
-    display: block;
-    width: 46px;
-    height: 46px;
-    padding: 0;
-    border: 0;
-    border-radius: 50%;
-    background: none;
-    cursor: pointer;
-    transition: width 0.25s ease, height 0.25s ease;
-  }
-  .tm-avatar-img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background-color: var(--avatar-empty);
-    background-image: repeating-linear-gradient(135deg, transparent 0 7px, rgba(255,255,255,0.45) 7px 9px);
-    background-size: cover;
-    background-position: center;
-  }
-  .tm-avatar.is-active { width: 70px; height: 70px; }
-  .tm-avatar.is-active .tm-avatar-img { box-shadow: 0 0 0 2px var(--ink); }
-  .tm-avatar:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-  @media (prefers-reduced-motion: reduce) {
-    .tm-text, .tm-cite, .tm-avatar { transition: none; }
-  }
+  /* Side-by-side figures: narrow + wide, or wide + narrow (as in the design: 360 / 684) */
+  .cs-pair { display: grid; gap: clamp(20px, 3vw, 34px); align-items: start; }
+  .cs-pair--narrow-wide { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr); }
+  .cs-pair--wide-narrow { grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); }
+  .cs-pair .cs-media { aspect-ratio: auto; height: clamp(260px, 30vw, 384px); }
 
-  .canvas {
-    width: 100%;
-    max-width: var(--max-width);
-    margin-inline: auto;
-    padding-inline: var(--gutter);
-    padding-block: clamp(12px, 2vw, 32px) var(--gutter);
+  /* ---------- Role, meta and stats ---------- */
+  .cs-meta { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 16px 24px; margin: 0; }
+  .cs-meta dt { font-size: 14px; text-transform: uppercase; line-height: 1.3; }
+  .cs-meta dd { margin: 6px 0 0; font-size: 14px; font-weight: 600; line-height: 1.3; }
+
+  .cs-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+  .cs-stat {
+    padding: 18px 22px 20px;
+    border: 1.5px solid var(--ink);
+    border-radius: 16px;
+    background: #fff;
+  }
+  .cs-stat svg { display: block; width: 16px; height: 16px; margin-bottom: 10px; }
+  .cs-stat-label { display: block; font-size: 14px; line-height: 1.3; }
+  .cs-stat-value { display: block; margin-top: 6px; font-family: var(--font-display); font-weight: 700; font-size: 15px; line-height: 1.2; }
+
+  /* ---------- Vertical rhythm ---------- */
+  .cs-intro + .cs-figure { margin-top: clamp(48px, 6vw, 80px); }
+  .cs-role { margin-top: clamp(56px, 7vw, 100px); }
+  .cs-stats { margin-top: clamp(40px, 5vw, 64px); }
+  .cs-section { margin-top: var(--cs-section-gap); }
+  .cs-section > .cs-figure, .cs-section > .cs-pair { margin-top: clamp(48px, 6vw, 80px); }
+  .cs-stats + .cs-section { margin-top: clamp(48px, 5vw, 64px); }
+
+  .cs-heading { margin: 0; font-size: clamp(22px, 1.8vw, 26px); font-weight: 600; line-height: 1.2; }
+
+  /* ---------- Footer on a cream page ----------
+     The cream outline cloud would vanish into the page, so it is filled lavender instead
+     (it reaches the screen edges, so the curve runs edge to edge). The page cream runs down
+     into the clouds, and the background turns lavender inside them; 21.5vw sits within the
+     clouds' solid band at every width, since the clouds scale with vw. */
+  .site-footer--on-cream { background: linear-gradient(var(--cloud) 21.5vw, var(--canvas) 21.5vw); }
+  .site-footer--on-cream .footer-cloud-cream path { fill: var(--canvas); }
+
+  /* ---------- Smaller screens ---------- */
+  @media (max-width: 900px) {
+    .cs-row { grid-template-columns: minmax(0, 1fr); }
+    .cs-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cs-meta { justify-content: start; }
+  }
+  @media (max-width: 640px) {
+    .cs-pair--narrow-wide, .cs-pair--wide-narrow { grid-template-columns: minmax(0, 1fr); }
+    .cs-pair .cs-media { height: auto; aspect-ratio: 4 / 3; }
+    .cs-meta { grid-template-columns: repeat(2, auto); }
+  }
+  @media (max-width: 380px) {
+    .cs-stats { grid-template-columns: minmax(0, 1fr); }
   }
 </style>
 </head>
 <body>
 <!-- Sticky navbar: frosted cream pill that blurs whatever scrolls beneath it -->
 <nav class="site-nav" aria-label="Main">
-  <a class="nav-logo" href="#top" aria-label="Aniket Kale, back to top">
+  <a class="nav-logo" href="index.html" aria-label="Aniket Kale, home">
     <img src="images/logo-ak.webp" alt="" width="160" height="158">
   </a>
   <div class="nav-links">
-    <a class="nav-link" href="#work">Work</a>
-    <a class="nav-link" href="#experience">Experience</a>
+    <a class="nav-link" href="index.html#work">Work</a>
+    <a class="nav-link" href="index.html#experience">Experience</a>
     <a class="nav-cta" href="#contact">Connect With Me</a>
   </div>
 </nav>
 
-<header class="hero" id="top">
-  <!-- Two layers in one drawing so they always line up:
-       1. cream cloud (Cloud 2), 2. lavender cloud on top (Cloud 1), which trims the cream
-       down to a scalloped band. Both outer shapes extend far past the artwork's edges
-       so nothing leaks at the screen edges at any size. -->
-  <div class="scene">
-  <svg class="cloud cloud-back" viewBox="0 0 1200 702" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <g class="cloud-cream">
-      <path d="M-6000 -60.2009H-231.592L206.464 502.333L575.085 663.117L1013.89 444.802L1432.16 -60.2009H7200V8000H-6000Z"/>
-      <ellipse cx="541.761" cy="656.199" rx="117.055" ry="107.465"/>
-      <ellipse cx="117.055" cy="107.465" rx="117.055" ry="107.465" transform="matrix(-1 0 0 1 775.876 548.734)"/>
-      <ellipse cx="382.269" cy="565.447" rx="117.055" ry="107.465"/>
-      <ellipse cx="117.055" cy="107.465" rx="117.055" ry="107.465" transform="matrix(-1 0 0 1 935.36 457.982)"/>
-      <ellipse cx="222.485" cy="457.983" rx="117.055" ry="107.465"/>
-      <ellipse cx="117.055" cy="107.465" rx="117.055" ry="107.465" transform="matrix(-1 0 0 1 1095.14 350.518)"/>
-      <ellipse cx="105.437" cy="334.495" rx="134.508" ry="123.488"/>
-      <ellipse cx="134.508" cy="123.488" rx="134.508" ry="123.488" transform="matrix(-1 0 0 1 1229.65 211.007)"/>
-      <ellipse cx="8.69116" cy="144.292" rx="155.422" ry="142.688"/>
-      <ellipse cx="155.422" cy="142.688" rx="155.422" ry="142.688" transform="matrix(-1 0 0 1 1347.32 1.604)"/>
-    </g>
-  </svg>
-
-  <div class="intro">
-      <p class="intro-roles">UI UX Designer / Product Designer / CRO Expert</p>
-      <h1 class="intro-name">
-        <span class="intro-first" id="introFirst">Aniket</span>
-        <span class="intro-last">Kale.</span>
-      </h1>
+<main class="cs" id="top">
+  <!-- Intro -->
+  <header class="cs-row cs-intro">
+    <div>
+      <ul class="cs-tags" aria-label="Project tags">
+        <li class="cs-tag">Shipped</li>
+        <li class="cs-tag">VOiP</li>
+        <li class="cs-tag">AI</li>
+      </ul>
+      <h1 class="cs-title">ROAR- Smarter Conversations, Seamless Collaboration</h1>
     </div>
+    <div class="cs-copy">
+      <p>ROAR was designed to solve a simple but important problem: agents and brokers needed a faster way to communicate while working through document verification.</p>
+    </div>
+  </header>
 
-  <!-- Aniket's portrait sits between the cream band and the lavender layer,
-       so the lavender clouds tuck the bottom of the shirt away -->
-  <div class="portrait">
-    <img src="images/aniket-eyes-open.webp" alt="Illustrated portrait of Aniket Kale" width="1145" height="1374" decoding="async">
-    <!-- Pupils: each one is clipped to its eye opening and eases toward the cursor -->
-    <svg class="eyes" viewBox="0 0 1145 1374" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false">
-      <defs>
-        <clipPath id="eyeOpenL"><path d="M344 496 L343 497 L340 497 L328 503 L314 518 L310 526 L310 528 L306 538 L306 542 L305 543 L305 551 L304 552 L304 565 L305 566 L305 574 L306 575 L306 579 L307 580 L311 594 L313 597 L313 599 L318 607 L328 617 L336 621 L338 621 L339 622 L353 622 L354 621 L362 619 L374 612 L389 597 L398 585 L399 582 L397 577 L397 572 L398 571 L399 562 L400 561 L400 549 L399 548 L398 539 L394 528 L387 518 L381 512 L378 511 L376 507 L373 504 L367 500 L359 497 L356 497 L355 496 Z"/></clipPath>
-        <clipPath id="eyeOpenR"><path d="M607 439 L605 439 L598 436 L591 435 L590 434 L585 434 L584 433 L567 433 L566 434 L561 434 L560 435 L557 435 L556 436 L551 437 L535 445 L527 451 L518 460 L510 472 L503 490 L502 500 L501 501 L501 518 L502 519 L502 524 L503 525 L503 528 L504 529 L506 537 L508 540 L508 542 L515 552 L527 563 L541 570 L544 570 L549 572 L554 572 L555 573 L575 573 L576 572 L586 571 L587 570 L590 570 L591 569 L605 565 L623 555 L640 537 L648 521 L648 516 L649 515 L649 510 L650 509 L650 499 L649 498 L649 494 L647 489 L647 483 L636 462 L621 447 L618 446 L616 444 Z"/></clipPath>
-      </defs>
-      <g clip-path="url(#eyeOpenL)">
-        <image class="pupil" data-cx="367" data-cy="555" data-mx="11" data-my="13" href="images/pupil.webp" xlink:href="images/pupil.webp" x="332" y="505" width="70" height="100" preserveAspectRatio="none"/>
-      </g>
-      <g clip-path="url(#eyeOpenR)">
-        <image class="pupil" data-cx="598" data-cy="504" data-mx="16" data-my="14" href="images/pupil.webp" xlink:href="images/pupil.webp" x="544" y="448" width="108" height="112" preserveAspectRatio="none"/>
-      </g>
-    </svg>
+  <figure class="cs-figure">
+    <div class="cs-media" style="--ratio: 1080 / 592">
+      <span class="cs-placeholder">Hero image: dashboard with transcription details</span>
+    </div>
+  </figure>
+
+  <!-- Role and project details -->
+  <div class="cs-row cs-role">
+    <div class="cs-copy">
+      <p>My role was to design a secure calling experience directly inside the agent dashboard, allowing agents and brokers to connect without exposing their personal numbers while automatically generating call recordings and AI-powered transcripts through ROARcording.</p>
+    </div>
+    <dl class="cs-meta">
+      <div><dt>Product</dt><dd>Agent Dashboard</dd></div>
+      <div><dt>Timeline</dt><dd>Q2 2025 - Q3 2025</dd></div>
+      <div><dt>My role</dt><dd>Team Member</dd></div>
+    </dl>
   </div>
 
-  <svg class="cloud cloud-front" data-depth="0.006" viewBox="0 0 1200 702" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <g class="cloud-sky">
-      <path d="M-6000 -154.483H-388.14L132.294 540.478L570.234 739.112L1091.56 469.403L1588.49 -154.483H7200V8000H-6000Z"/>
-      <ellipse cx="530.649" cy="730.574" rx="139.068" ry="132.764"/>
-      <ellipse cx="139.068" cy="132.764" rx="139.068" ry="132.764" transform="matrix(-1 0 0 1 808.781 597.811)"/>
-      <ellipse cx="341.169" cy="618.465" rx="139.068" ry="132.764"/>
-      <ellipse cx="139.068" cy="132.764" rx="139.068" ry="132.764" transform="matrix(-1 0 0 1 998.253 485.701)"/>
-      <ellipse cx="151.33" cy="485.694" rx="139.068" ry="132.764"/>
-      <ellipse cx="139.068" cy="132.764" rx="139.068" ry="132.764" transform="matrix(-1 0 0 1 1188.09 352.93)"/>
-      <ellipse cx="12.2699" cy="333.142" rx="159.803" ry="152.559"/>
-      <ellipse cx="159.803" cy="152.559" rx="159.803" ry="152.559" transform="matrix(-1 0 0 1 1347.89 180.583)"/>
-      <ellipse cx="-102.669" cy="98.1593" rx="184.649" ry="176.279"/>
-      <ellipse cx="184.649" cy="176.279" rx="184.649" ry="176.279" transform="matrix(-1 0 0 1 1487.68 -78.1194)"/>
-    </g>
-  </svg>
+  <ul class="cs-stats" aria-label="Project highlights">
+    <li class="cs-stat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span class="cs-stat-label">Agents using ROAR</span>
+      <span class="cs-stat-value">10,000+</span>
+    </li>
+    <li class="cs-stat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 8.5a6 6 0 0 1 12 0c0 6-6 6-6 11.5"/><path d="M15 13a3 3 0 0 0 0-6"/><path d="M19.5 15.5a8 8 0 0 0 0-11"/></svg>
+      <span class="cs-stat-label">Communication</span>
+      <span class="cs-stat-value">Real-time</span>
+    </li>
+    <li class="cs-stat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l1.9 5.6L19.5 10.5l-5.6 1.9L12 18l-1.9-5.6L4.5 10.5l5.6-1.9z"/></svg>
+      <span class="cs-stat-label">ROARCOrding</span>
+      <span class="cs-stat-value">AI-powered</span>
+    </li>
+    <li class="cs-stat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+      <span class="cs-stat-label">Secure calling</span>
+      <span class="cs-stat-value">Number masked</span>
+    </li>
+  </ul>
 
-  <!-- Small clouds and sun, placed as in the reference design -->
-<svg class="decor decor-sun" data-depth="0.009" aria-hidden="true" focusable="false" data-w="193" data-h="80" viewBox="0 0 193 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M44.9048 40.3092C44.9045 40.2864 44.9038 40.2641 44.9034 40.2415C44.9027 40.2634 44.9033 40.286 44.9048 40.3092Z" fill="#EDB20F"/>
-<path d="M95.1859 38.0915C95.502 29.1606 90.8297 20.1593 83.1156 15.5803C79.8149 13.6994 76.0992 12.5548 72.3272 12.145C60.8483 10.8971 50.371 17.134 46.4233 28.0596C46.42 28.0572 46.4164 28.0548 46.4127 28.0534C45.2795 31.1668 44.7139 34.6241 44.8222 37.9009L44.8308 37.8911C44.8344 38.6776 44.8846 39.4537 44.9019 40.2395C44.903 40.2067 44.9077 40.1761 44.9221 40.1517C44.9371 40.3605 44.9696 40.5687 44.995 40.7777C44.9706 40.7481 44.957 40.7117 44.9486 40.6703C45.0148 41.168 45.0821 41.658 45.17 42.1547C45.3084 42.4089 45.3791 42.819 45.3648 43.0914C45.4754 43.2451 45.5325 43.5773 45.538 43.7813L45.5364 43.7806C45.5356 43.7853 45.535 43.7888 45.5332 43.7915C45.6216 43.911 45.6437 44.0556 45.6507 44.2087L45.6355 44.2039C46.1254 46.0313 46.8542 47.8332 47.7616 49.4919C47.7583 49.4938 47.7539 49.4949 47.75 49.4958C48.8211 51.3842 50.0524 53.2054 51.5786 54.7559C51.5451 54.7196 50.8457 53.9388 50.7967 53.8717L50.8186 53.8572C52.0104 55.2538 53.3562 56.5264 54.8178 57.6396C54.7887 57.6457 54.7547 57.6278 54.7194 57.6045C59.1182 60.9191 63.3326 62.5406 68.821 62.783L68.813 62.7705C76.3525 63.2761 84.1936 60.337 89.182 54.5684C89.1758 54.5622 89.17 54.5557 89.1645 54.5488C89.3592 54.3213 89.648 53.9785 89.8431 53.7261L89.8435 53.7264C93.2889 49.301 95.1806 43.73 95.1859 38.0915ZM92.072 45.6548C91.236 48.1781 89.8966 50.5186 88.2174 52.5729C87.0951 53.9964 85.8519 55.3255 84.4413 56.4721C80.8055 59.1235 76.4477 60.8903 71.9355 61.1797L71.9357 61.168C70.4955 61.2698 69.107 61.3116 67.6672 61.1701C67.4118 61.3152 66.9785 61.1618 66.6954 61.1264C63.1723 60.4973 59.7345 59.3213 56.7657 57.2487C56.7691 57.2406 56.7728 57.2325 56.7769 57.2249C55.2698 56.1619 53.8952 54.9299 52.6471 53.5887C52.6446 53.5924 52.6425 53.5958 52.6393 53.5987C51.1433 52.017 49.6944 49.8191 48.8014 47.7781C48.4186 46.8658 48.1353 45.916 47.8085 44.9833C46.8981 42.0606 46.4276 38.9733 46.6722 35.9101C46.6677 35.9108 46.6638 35.9116 46.6595 35.9114C46.9615 33.2459 47.3347 30.4973 48.3636 27.9876C48.3562 27.9828 48.3493 27.9785 48.3413 27.9744C49.6537 24.8175 51.5663 21.7309 54.1412 19.4164C54.1438 19.4193 54.1459 19.4232 54.1477 19.4267C55.5446 18.1867 57.0375 17.0479 58.6687 16.139C59.7515 15.6356 60.8766 15.1476 62.0076 14.7352C66.4783 13.3566 71.4823 13.188 76.0243 14.2631C76.0242 14.2591 76.0243 14.2546 76.0252 14.2509C80.9415 15.4785 85.588 18.4088 88.5644 22.4871C88.6083 22.6097 88.7104 22.7377 88.8151 22.8255C88.8137 22.8253 88.8113 22.8246 88.809 22.8239C92.5927 28.0401 94.0366 34.7114 93.1595 41.0613C93.0624 41.5948 92.9138 42.1437 92.775 42.6702C92.5547 43.5095 92.3368 44.2954 92.3571 44.9421C92.2749 45.1825 92.1661 45.4287 92.072 45.6548Z" fill="#EDB20F"/>
-<path d="M91.4859 38.1139C91.3871 37.3116 91.3888 36.6008 91.3484 35.8097C91.2486 34.3296 90.9943 32.8507 90.597 31.4199C89.1779 26.3673 85.9535 21.8333 81.4893 19.0408C78.8851 17.4843 75.9417 16.5018 72.9487 16.0415C62.8829 14.4987 53.4645 19.8033 49.9773 29.4457C49.974 29.4433 49.9702 29.4409 49.9664 29.44C49.0115 32.0688 48.5187 35.0398 48.6203 37.8177L48.6289 37.8091C48.6311 38.4788 48.6733 39.1384 48.679 39.8077C48.6809 39.78 48.6857 39.7537 48.7005 39.7327C48.7129 39.9104 48.7406 40.0876 48.7621 40.2653C48.7387 40.2405 48.7258 40.2099 48.7182 40.1745C48.7756 40.5985 48.8313 41.0151 48.9054 41.4384C49.0365 41.6501 49.0939 42.0023 49.0721 42.2357C49.176 42.363 49.2236 42.6478 49.2207 42.8227L49.2193 42.8222C49.2183 42.826 49.2178 42.8294 49.2159 42.8318C49.2986 42.9316 49.3153 43.0548 49.3167 43.1867L49.3019 43.1828C49.7196 44.7387 50.3398 46.2741 51.1128 47.6863C51.1095 47.6882 51.1051 47.6896 51.1013 47.6905C52.0165 49.2936 53.0545 50.8481 54.3585 52.1619C54.2983 52.0941 53.738 51.4689 53.6979 51.4139L53.7194 51.3991C54.7335 52.5876 55.8789 53.6704 57.1227 54.6177C57.096 54.6253 57.0664 54.611 57.0363 54.5914C60.8399 57.445 64.3069 58.7907 69.0419 59.0012L69.0352 58.9887C75.4549 59.4314 82.1484 56.9383 86.4007 52.0244C86.3945 52.0187 86.3882 52.0125 86.383 52.0058C86.5488 51.8114 86.7955 51.5192 86.9619 51.3036L86.9624 51.3041C89.8694 47.5678 91.4898 42.8772 91.4859 38.1139Z" fill="#EDB20F"/>
-<path d="M70.7737 6.09211C70.8248 7.10288 71.2284 8.30528 70.7558 9.09448C68.5931 10.3506 68.9882 7.63106 69.1693 6.18069C69.1925 5.99468 69.1951 5.80687 69.1756 5.62042C69.0944 4.84522 69.0761 2.76316 69.0495 1.20336C69.0379 0.515526 69.5993 0 70.2302 0H70.2347C70.4858 0.000481676 70.704 0.174279 70.7593 0.419234C71.007 1.51763 70.8655 2.56558 70.7583 3.90066C70.6776 4.62812 70.6718 5.27492 70.7737 6.09211Z" fill="#EDB20F"/>
-<path d="M55.0133 9.90585C55.563 10.7556 56.5137 11.5952 56.499 12.5149C55.2541 14.6841 54.2365 12.1314 53.6681 10.7847C53.5952 10.612 53.5035 10.4481 53.3934 10.2964C52.9355 9.66566 51.8786 7.87164 51.0757 6.53416C50.7217 5.94428 50.9501 5.21712 51.4965 4.90167L51.5004 4.89944C51.718 4.77433 51.994 4.81571 52.1643 5.00019C52.928 5.82758 53.3294 6.80587 53.9042 8.0157C54.1981 8.68598 54.5165 9.24901 55.0133 9.90585Z" fill="#EDB20F"/>
-<path d="M43.2703 21.0828C44.1713 21.5438 45.4144 21.7956 45.8615 22.5995C45.868 25.1005 43.7104 23.3986 42.5448 22.5165C42.3954 22.4034 42.234 22.3073 42.0628 22.231C41.3508 21.9137 39.5386 20.8885 38.1745 20.1316C37.573 19.7977 37.4072 19.0538 37.7226 18.5074L37.7249 18.5036C37.8508 18.2864 38.1105 18.1842 38.3502 18.2589C39.4253 18.5936 40.2621 19.2401 41.3647 20.0004C41.9544 20.434 42.5116 20.7624 43.2703 21.0828Z" fill="#EDB20F"/>
-<path d="M38.6924 36.6367C39.7032 36.5855 40.9056 36.182 41.6948 36.6545C42.9509 38.8172 40.2314 38.4222 38.781 38.2411C38.595 38.2178 38.4072 38.2153 38.2208 38.2348C37.4456 38.316 35.3635 38.3342 33.8037 38.3609C33.1159 38.3725 32.6003 37.811 32.6003 37.1802V37.1757C32.6008 36.9246 32.7746 36.7064 33.0196 36.6511C34.118 36.4034 35.1659 36.5449 36.501 36.6521C37.2285 36.7328 37.8753 36.7385 38.6924 36.6367Z" fill="#EDB20F"/>
-<path d="M42.5062 52.3965C43.356 51.8468 44.1955 50.8961 45.1153 50.9108C47.2844 52.1557 44.7317 53.1733 43.3851 53.7417C43.2124 53.8146 43.0484 53.9063 42.8967 54.0164C42.266 54.4743 40.472 55.5312 39.1345 56.3341C38.5446 56.6881 37.8175 56.4597 37.502 55.9133L37.4998 55.9094C37.3747 55.6918 37.4161 55.4158 37.6005 55.2455C38.4279 54.4818 39.4062 54.0804 40.616 53.5057C41.2863 53.2117 41.8494 52.8933 42.5062 52.3965Z" fill="#EDB20F"/>
-<path d="M53.6831 64.141C54.1442 63.2401 54.3959 61.997 55.1998 61.5498C57.7008 61.5433 55.9989 63.701 55.1169 64.8665C55.0038 65.016 54.9076 65.1774 54.8313 65.3486C54.5141 66.0605 53.4888 67.8727 52.732 69.2369C52.3981 69.8384 51.6541 70.0042 51.1078 69.6887L51.1039 69.6864C50.8867 69.5605 50.7846 69.3008 50.8592 69.0611C51.1939 67.986 51.8404 67.1492 52.6008 66.0466C53.0343 65.457 53.3627 64.8997 53.6831 64.141Z" fill="#EDB20F"/>
-<path d="M69.2285 68.7223C69.1773 67.7115 68.7738 66.5091 69.2463 65.7199C71.409 64.4638 71.014 67.1833 70.8329 68.6337C70.8096 68.8197 70.8071 69.0075 70.8266 69.194C70.9078 69.9692 70.926 72.0513 70.9527 73.6111C70.9643 74.2989 70.4028 74.8144 69.772 74.8144H69.7675C69.5164 74.8139 69.2981 74.6401 69.2429 74.3952C68.9952 73.2968 69.1367 72.2488 69.2439 70.9138C69.3245 70.1863 69.3303 69.5395 69.2285 68.7223Z" fill="#EDB20F"/>
-<path d="M84.9922 64.9126C84.4425 64.0629 83.4918 63.2233 83.5065 62.3036C84.7514 60.1344 85.769 62.6871 86.3374 64.0338C86.4103 64.2065 86.502 64.3704 86.6121 64.5221C87.07 65.1528 88.1269 66.9469 88.9298 68.2843C89.2838 68.8742 89.0554 69.6014 88.509 69.9168L88.5051 69.9191C88.2875 70.0442 88.0115 70.0028 87.8413 69.8183C87.0775 68.9909 86.6761 68.0126 86.1014 66.8028C85.8074 66.1325 85.489 65.5695 84.9922 64.9126Z" fill="#EDB20F"/>
-<path d="M96.7411 53.7337C95.8402 53.2726 94.5971 53.0209 94.1499 52.217C94.1434 49.716 96.3011 51.4179 97.4666 52.3C97.6161 52.4131 97.7775 52.5092 97.9487 52.5855C98.6606 52.9028 100.473 53.928 101.837 54.6849C102.438 55.0188 102.604 55.7627 102.289 56.309L102.287 56.3129C102.161 56.5301 101.901 56.6322 101.661 56.5576C100.586 56.2229 99.7493 55.5764 98.6467 54.8161C98.0571 54.3825 97.4998 54.0541 96.7411 53.7337Z" fill="#EDB20F"/>
-<path d="M101.323 38.1819C100.312 38.233 99.1095 38.6366 98.3203 38.164C97.0641 36.0013 99.7837 36.3964 101.234 36.5775C101.42 36.6007 101.608 36.6033 101.794 36.5838C102.57 36.5026 104.652 36.4843 106.211 36.4577C106.899 36.4461 107.415 37.0075 107.415 37.6384V37.6429C107.414 37.894 107.24 38.1122 106.996 38.1675C105.897 38.4152 104.849 38.2737 103.514 38.1665C102.787 38.0858 102.14 38.08 101.323 38.1819Z" fill="#EDB20F"/>
-<path d="M97.5086 22.4215C96.6588 22.9712 95.8193 23.9219 94.8995 23.9072C92.7304 22.6623 95.2831 21.6447 96.6297 21.0763C96.8024 21.0034 96.9664 20.9117 97.118 20.8016C97.7488 20.3437 99.5428 19.2868 100.88 18.4839C101.47 18.1299 102.197 18.3583 102.513 18.9047L102.515 18.9086C102.64 19.1262 102.599 19.4022 102.414 19.5725C101.587 20.3362 100.609 20.7376 99.3987 21.3124C98.7285 21.6063 98.1654 21.9247 97.5086 22.4215Z" fill="#EDB20F"/>
-<path d="M86.3294 10.6788C85.8683 11.5797 85.6166 12.8228 84.8127 13.27C82.3117 13.2765 84.0136 11.1188 84.8957 9.95328C85.0088 9.80383 85.1049 9.64243 85.1812 9.47121C85.4985 8.7593 86.5237 6.94706 87.2806 5.58291C87.6145 4.98142 88.3584 4.81564 88.9047 5.13109L88.9086 5.13333C89.1258 5.25926 89.228 5.51893 89.1533 5.75867C88.8186 6.83377 88.1721 7.67053 87.4118 8.77318C86.9782 9.36284 86.6498 9.92009 86.3294 10.6788Z" fill="#EDB20F"/>
-<path d="M117.256 27.0261C123.678 27.2222 129.265 30.7799 132.2 35.8826L132.282 36.0251L132.446 36.0066C133.004 35.9425 133.587 35.9412 134.187 35.9412C136.787 36.0286 139.187 36.7909 141.171 38.0281L141.397 38.1687L141.524 37.9343C143.79 33.7249 148.324 30.9453 153.539 31.0974H153.54C160.087 31.2717 165.545 36.0314 166.833 42.1589L166.874 42.3572H167.647C172.995 42.5094 177.469 45.8767 178.768 50.2966L178.833 50.5183L179.059 50.4714C179.881 50.2989 180.75 50.2318 181.645 50.2537V50.2546C187.772 50.4286 192.689 55.1352 192.689 60.7341C192.689 66.3034 187.782 70.723 181.66 70.5281H181.659C179.917 70.485 178.263 70.0718 176.807 69.3582L176.544 69.2292L176.458 69.5095C175.028 74.1694 170.294 77.5157 164.663 77.3416H164.662C161.585 77.2544 158.773 76.1457 156.616 74.3669L156.408 74.196L156.252 74.4158C154.436 76.978 151.25 78.6435 147.643 78.5359H147.644C144.447 78.4273 141.602 76.9986 139.714 74.8171L139.545 74.6218L139.356 74.7966C137.057 76.9176 133.855 78.2293 130.301 78.2107L129.957 78.2039C126.374 78.0947 123.122 76.6604 120.766 74.4451L120.558 74.2498L120.392 74.4812C118.31 77.3743 114.658 79.2416 110.493 79.1335H110.494C107.092 79.0246 104.042 77.6139 101.887 75.446L101.715 75.2742L101.539 75.4412C99.4991 77.3642 96.6074 78.5349 93.3843 78.448H93.3853C88.9199 78.3157 85.0486 75.7779 83.2241 72.2322L83.1021 71.9939L82.8726 72.1326C81.5626 72.9236 79.9003 73.3559 78.0767 73.3132H78.0776C73.7772 73.183 70.4097 70.3678 70.4097 67.1482C70.4098 64.4153 72.8291 62.1185 76.1978 61.5779L76.5493 61.5212L76.3774 61.2097C75.6851 59.9594 75.2974 58.6074 75.2974 57.1941C75.2974 51.794 80.8956 47.492 87.9272 47.7107H87.9292C89.7453 47.754 91.4723 48.1026 93.0464 48.6902L93.2134 48.7527L93.3267 48.616C94.8581 46.7688 97.2598 45.5149 100.019 45.2986L100.283 45.2771L100.248 45.0154C100.16 44.3632 100.117 43.7107 100.117 43.0359C100.117 33.9173 107.789 26.7428 117.256 27.0261Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-<path d="M26.4131 48.9434C30.0839 48.9435 33.2537 51.2678 34.7617 54.6729L34.8506 54.876L35.0625 54.8105C35.9837 54.5292 36.9713 54.3799 38.0088 54.3799C41.8371 54.3799 45.0553 56.4888 46.2393 59.3721L46.3125 59.5508L46.5039 59.5254C46.7411 59.4933 46.9953 59.4766 47.25 59.4766C49.4883 59.4767 51.3832 61.0103 51.9355 63.1123L52.0059 63.3818L52.2666 63.2822C52.6314 63.1424 53.0314 63.0781 53.4541 63.0781C55.288 63.0781 56.7547 64.4751 56.7549 66.1748C56.7549 67.8583 55.2872 69.2725 53.4541 69.2725H2.43945C1.21466 69.2725 0.250086 68.2945 0.25 67.127C0.25 65.9434 1.21343 64.9814 2.43945 64.9814C2.81193 64.9815 3.15617 65.0723 3.47461 65.2275L3.8291 65.4004L3.83398 65.0068C3.86523 62.7179 5.62474 60.9045 7.74805 60.9043C8.66557 60.9043 9.52199 61.239 10.1934 61.7979L10.4775 62.0342L10.5908 61.6826C11.3223 59.4183 13.4048 57.7949 15.8447 57.7949C16.2054 57.7949 16.587 57.8438 16.9434 57.9102L17.2051 57.959L17.2373 57.6953C17.8546 52.7382 21.7464 48.9434 26.4131 48.9434Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-</svg>
-<svg class="decor decor-breeze" data-depth="0.011" aria-hidden="true" focusable="false" data-w="131" data-h="63" viewBox="0 0 131 63" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M31.3096 0.25C38.8461 0.250028 45.7471 2.94683 51.1426 7.42871L51.2314 7.50293L51.3457 7.48242C52.8925 7.20483 54.5162 7.04689 56.1396 7.04688C66.6797 7.04688 75.7949 12.9108 80.5117 21.5518L80.6094 21.7305L80.8037 21.6709C82.7399 21.0778 84.7943 20.7617 86.9287 20.7617C95.9381 20.7619 103.564 26.4128 106.487 34.3936L106.544 34.5498L106.711 34.5566C112.327 34.7919 117.121 38.4059 119.085 43.3945L119.161 43.5898L119.366 43.5488C119.953 43.4315 120.577 43.3525 121.237 43.3525C126.497 43.3527 130.743 47.5996 130.743 52.8594C130.743 58.1191 126.497 62.366 121.237 62.3662H31.3096C14.1339 62.3662 0.250053 48.4823 0.25 31.3066C0.25 14.174 14.134 0.25 31.3096 0.25Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-<path d="M84.127 0.25H119.914C121.493 0.250267 122.823 1.57522 122.823 3.19824C122.823 4.77905 121.496 6.10715 119.914 6.10742H84.127C82.5037 6.10736 81.1787 4.77856 81.1787 3.19824C81.1788 1.6291 82.424 0.333546 83.9756 0.253906L84.127 0.25Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-<path d="M93.3647 12.8074H107C108.621 12.8074 109.909 14.0953 109.909 15.7166C109.909 17.3419 108.617 18.6648 107 18.6648H93.3647C91.7858 18.6647 90.4556 17.3397 90.4556 15.7166C90.4557 14.1972 91.6215 12.9693 93.0718 12.822L93.3647 12.8074Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-<path d="M114.079 25.8408H119.637C120.582 25.8408 121.347 26.613 121.347 27.5107C121.346 28.452 120.58 29.2188 119.637 29.2188H114.079C113.138 29.2188 112.37 28.4521 112.37 27.5107V27.5098C112.369 26.6687 113.041 25.9379 113.903 25.8496L114.079 25.8408Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-</svg>
-<svg class="decor decor-puffs" data-depth="0.010" aria-hidden="true" focusable="false" data-w="92" data-h="65" viewBox="0 0 92 65" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M40.9844 0.25C46.5716 0.25 51.297 3.7381 52.8232 8.52734L52.9004 8.76953L53.1406 8.68848C54.1991 8.33538 55.3251 8.12504 56.4951 8.125C62.0534 8.125 66.5703 12.5328 66.5703 17.96C66.5703 19.8085 66.0317 21.5636 65.1182 23.0391L65.0029 23.2246L65.1719 23.3633C67.1342 24.9756 68.3944 27.4032 68.3945 30.1328C68.3945 34.9838 64.3812 38.9346 59.4004 38.9346C57.95 38.9346 56.5966 38.6074 55.3828 38.001L55.1309 37.875L55.0352 38.1396C53.7079 41.8424 49.6845 44.5527 44.874 44.5527C41.1993 44.5527 37.9604 42.9509 36.042 40.541L35.8467 40.2959L35.6504 40.541C33.5172 43.2131 29.9185 44.9608 25.8105 44.9609C20.707 44.9609 16.3865 42.2674 14.6807 38.5039L14.5684 38.2559L14.3311 38.3896C13.0468 39.1135 11.5516 39.5332 9.93945 39.5332C5.33035 39.533 1.59401 36.0513 1.59375 31.7646C1.59375 30.1637 2.12719 28.6544 3.03418 27.4219L3.16406 27.2471L3.00781 27.0947C1.30182 25.4351 0.25 23.1215 0.25 20.5752C0.248446 15.5504 4.26902 11.5107 9.21875 11.5107C11.1561 11.5107 12.9554 12.1412 14.4277 13.1934L14.6562 13.3564L14.792 13.1104C16.5235 9.97518 20.0158 7.838 24.0332 7.83789C25.725 7.83789 27.3217 8.21383 28.7295 8.87109L28.9912 8.99316L29.0752 8.7168C30.554 3.83282 35.3268 0.250127 40.9844 0.25Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-<path d="M33.5779 37.5166C30.1594 37.5168 27.2748 39.6325 26.3445 42.5273L26.2673 42.7676L26.0281 42.6885C25.3816 42.4747 24.6948 42.3477 23.9822 42.3477C20.5922 42.3479 17.8455 45.0127 17.8455 48.2842C17.8456 49.3987 18.1723 50.4573 18.7283 51.3477L18.8455 51.5342L18.6746 51.6738C17.4814 52.6459 16.7166 54.108 16.7166 55.751C16.7166 58.6695 19.1528 61.0537 22.1853 61.0537C23.0684 61.0537 23.8919 60.8557 24.6296 60.4902L24.8796 60.3662L24.9753 60.6299C25.7803 62.856 28.2282 64.4999 31.1716 64.5C33.4188 64.5 35.395 63.5281 36.5623 62.0742L36.7566 61.832L36.9519 62.0742C38.2516 63.6886 40.4497 64.7499 42.9656 64.75C46.0924 64.75 48.7273 63.1142 49.7644 60.8457L49.8767 60.5986L50.114 60.7314C50.8946 61.1676 51.8032 61.4209 52.7839 61.4209C55.5914 61.4209 57.8511 59.3198 57.8513 56.752C57.8513 55.7923 57.5295 54.8868 56.9802 54.1465L56.8494 53.9697L57.0066 53.8174C58.0441 52.8166 58.6833 51.4218 58.6833 49.8877C58.6842 46.8601 56.2408 44.4238 53.2302 44.4238C52.0522 44.4238 50.9579 44.8039 50.0623 45.4385L49.8347 45.5996L49.699 45.3564C48.6455 43.465 46.5178 42.1709 44.0652 42.1709C43.0324 42.1709 42.0577 42.3984 41.199 42.7959L40.9392 42.917L40.8552 42.6426C39.9536 39.6901 37.0395 37.5166 33.5779 37.5166Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-<path d="M63.9243 22.7834C60.1405 22.7835 56.9548 25.0415 55.9282 28.1213L55.8501 28.3547L55.6147 28.2805C54.8994 28.0524 54.1387 27.9163 53.3491 27.9163C49.5911 27.9165 46.5601 30.7628 46.5601 34.2395C46.5601 35.4248 46.9216 36.5512 47.5356 37.4993L47.6597 37.6907L47.48 37.8313C46.1598 38.8683 45.3169 40.426 45.3169 42.1731C45.3169 45.2746 48.0046 47.8224 51.3687 47.8225C52.3472 47.8225 53.2595 47.6113 54.0767 47.2209L54.3228 47.1038L54.4185 47.3586C55.3074 49.7293 58.0144 51.4846 61.2729 51.4846C63.7598 51.4845 65.9455 50.4481 67.2358 48.8987L67.4272 48.6682L67.6196 48.8977C69.0562 50.618 71.487 51.7502 74.27 51.7502C77.7292 51.7502 80.6412 50.0049 81.7866 47.5891L81.8999 47.3518L82.1313 47.4768C82.9958 47.9426 84.0032 48.2131 85.0903 48.2131C88.2052 48.213 90.7005 45.9665 90.7007 43.2366C90.7007 42.2156 90.3444 41.2514 89.7368 40.4622L89.5981 40.2815L89.7651 40.1262C90.9123 39.0592 91.6167 37.5747 91.6167 35.9436C91.6177 32.7265 88.9222 30.1223 85.5815 30.1223C84.2755 30.1223 83.063 30.5291 82.0718 31.2063L81.8491 31.3577L81.7144 31.1243C80.5506 29.1103 78.1972 27.7288 75.481 27.7288C74.3377 27.7288 73.2592 27.9716 72.3091 28.3958L72.0532 28.51L71.9692 28.2424C70.9744 25.1019 67.7556 22.7834 63.9243 22.7834Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-</svg>
-<svg class="decor decor-drift" data-depth="0.0075" aria-hidden="true" focusable="false" data-w="223" data-h="67" viewBox="0 0 223 67" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M103.198 0.25C112.312 0.25 120.251 5.38924 124.345 12.9756L124.446 13.1621L124.647 13.0928C126.47 12.4682 128.385 12.125 130.424 12.125C137.529 12.125 143.679 16.308 146.616 22.3701L146.731 22.6074L146.962 22.4805C148.931 21.3919 151.208 20.7695 153.64 20.7695C158.963 20.7696 163.612 23.7861 166.014 28.207L166.124 28.4072L166.333 28.3174C167.558 27.7909 168.872 27.4824 170.276 27.4824C175.587 27.4824 179.895 31.8323 179.895 37.207C179.893 38.8798 179.495 40.4542 178.763 41.8096L178.576 42.1572L178.97 42.1777C188.837 42.7 196.866 43.3404 202.425 44.0596C205.206 44.4193 207.361 44.7981 208.816 45.1885C209.545 45.3841 210.085 45.5793 210.437 45.7695C210.613 45.8648 210.731 45.9528 210.8 46.0283C210.869 46.1024 210.878 46.1487 210.878 46.1709C210.878 46.1929 210.87 46.2357 210.812 46.3027C210.753 46.3715 210.652 46.4522 210.499 46.541C210.191 46.7185 209.718 46.9013 209.075 47.0859C207.791 47.4542 205.885 47.8128 203.417 48.1553C198.483 48.8396 191.338 49.4563 182.501 49.9746C164.83 51.0111 140.414 51.6523 113.443 51.6523C86.4873 51.6523 62.0784 51.0112 44.4106 49.9746C35.5759 49.4562 28.4315 48.8386 23.4985 48.1543C21.0305 47.8119 19.1252 47.4541 17.8413 47.0859C17.1978 46.9014 16.7246 46.7184 16.4175 46.541C16.264 46.4523 16.1634 46.3714 16.104 46.3027C16.0461 46.2357 16.0376 46.1928 16.0376 46.1709C16.0376 46.15 16.046 46.1075 16.105 46.04C16.1654 45.971 16.2674 45.8899 16.4233 45.8008C16.7354 45.6224 17.2156 45.4378 17.8687 45.252C19.1712 44.8813 21.1039 44.5198 23.6069 44.1738C28.6098 43.4824 35.8549 42.8572 44.813 42.335L45.1099 42.3184L45.0425 42.0293C44.9217 41.5113 44.8608 40.9599 44.8608 40.376C44.8608 35.6356 48.6662 31.8224 53.3521 31.8223C54.3869 31.8223 55.3602 32.0061 56.2739 32.3447L56.603 32.4668L56.6099 32.1162C56.8264 22.1171 64.9256 14.0891 74.8755 14.0889C76.9464 14.0889 78.925 14.4328 80.7808 15.0576L80.9985 15.1309L81.0903 14.9189C84.812 6.29736 93.3087 0.250149 103.198 0.25Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-<path d="M184.848 36.1091C187.154 36.1091 189.21 37.0986 190.561 38.6482L190.683 38.7878L190.852 38.7126C191.802 38.2884 192.857 38.0417 193.964 38.0417C196.548 38.0419 198.811 39.3473 200.092 41.2839L200.249 41.5212L200.464 41.3357C201.708 40.2628 203.375 39.6092 205.203 39.6091C209.057 39.6091 212.165 42.5223 212.234 46.0925L212.243 46.5144L212.609 46.3044C213.588 45.7422 214.763 45.407 216.025 45.407C219.46 45.4071 222.203 47.8601 222.203 50.7917C222.203 53.7223 219.461 56.1569 216.025 56.157C215.547 56.157 215.073 56.1213 214.64 56.0339L214.383 55.9822L214.344 56.2419C213.853 59.4772 211.051 61.9732 207.69 61.9734C206.656 61.9734 205.694 61.7444 204.837 61.3406L204.544 61.2029L204.484 61.5203C203.928 64.468 201.067 66.7507 197.575 66.7507C195.462 66.7506 193.567 65.919 192.291 64.5847L192.126 64.4128L191.946 64.5681C190.704 65.6399 188.983 66.3123 187.062 66.3123C184.414 66.3122 182.121 65.036 180.991 63.2039L180.854 62.9812L180.638 63.1287C179.318 64.0296 177.66 64.5623 175.857 64.5623C171.432 64.5621 167.864 61.3141 167.864 57.3552C167.864 57.1681 167.881 56.9791 167.898 56.7957L167.918 56.5964L167.728 56.5339C165.657 55.8528 164.195 54.0261 164.195 51.8855L164.202 51.6345C164.343 49.0574 166.63 46.9753 169.449 46.9753C170.009 46.9754 170.53 47.046 171.014 47.1843L171.203 47.238L171.3 47.0681C172.176 45.532 174.05 44.4412 176.24 44.4412C176.569 44.4412 176.883 44.4755 177.211 44.5125L177.534 44.5496L177.486 44.2273C177.433 43.8717 177.398 43.5012 177.398 43.1335C177.399 39.2737 180.723 36.1091 184.848 36.1091Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-<path d="M37.6055 34.4131C35.2991 34.4131 33.243 35.4025 31.8926 36.9521L31.7705 37.0918L31.6016 37.0166C30.651 36.5924 29.596 36.3457 28.4893 36.3457C25.9052 36.3459 23.6416 37.6513 22.3613 39.5879L22.2041 39.8252L21.9893 39.6396C20.7456 38.5668 19.0784 37.9132 17.25 37.9131C13.3961 37.9131 10.288 40.8263 10.2188 44.3965L10.21 44.8184L9.84375 44.6084C8.86465 44.0462 7.69047 43.7109 6.42773 43.7109C2.99337 43.711 0.25 46.164 0.25 49.0957C0.250225 52.0262 2.99239 54.4609 6.42773 54.4609C6.90661 54.4609 7.37991 54.4252 7.81348 54.3379L8.07031 54.2861L8.10938 54.5459C8.59988 57.7811 11.4022 60.2772 14.7627 60.2773C15.7969 60.2773 16.7589 60.0483 17.6162 59.6445L17.9092 59.5068L17.9688 59.8242C18.5249 62.7719 21.3861 65.0547 24.8779 65.0547C26.9912 65.0546 28.8862 64.2229 30.1621 62.8887L30.3271 62.7168L30.5068 62.8721C31.7493 63.9439 33.4703 64.6162 35.3916 64.6162C38.039 64.6161 40.3322 63.34 41.4619 61.5078L41.5986 61.2852L41.8154 61.4326C43.135 62.3335 44.7926 62.8662 46.5957 62.8662C51.0215 62.866 54.5889 59.618 54.5889 55.6592C54.5889 55.472 54.5724 55.2831 54.5547 55.0996L54.5352 54.9004L54.7256 54.8379C56.7959 54.1568 58.2576 52.3301 58.2578 50.1895L58.251 49.9385C58.1098 47.3614 55.823 45.2793 53.0039 45.2793C52.4439 45.2793 51.9228 45.3499 51.4395 45.4883L51.25 45.542L51.1533 45.3721C50.2767 43.8359 48.4034 42.7451 46.2129 42.7451C45.8843 42.7451 45.5705 42.7794 45.2422 42.8164L44.9189 42.8535L44.9668 42.5312C45.0199 42.1756 45.0547 41.8052 45.0547 41.4375C45.0546 37.5777 41.7299 34.4131 37.6055 34.4131Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-</svg>
-<svg class="decor decor-bank" data-depth="0.008" aria-hidden="true" focusable="false" data-w="222" data-h="64" viewBox="0 0 222 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M127.278 0.25C135.018 0.250125 141.915 3.98844 146.095 9.70312L146.197 9.84473L146.365 9.7959C148.419 9.20863 150.657 8.87988 152.933 8.87988C163.245 8.87988 171.854 15.478 174.269 24.3994L174.326 24.6113L174.544 24.5811C175.351 24.4698 176.155 24.3975 176.993 24.3975C185.376 24.3975 192.345 29.9901 193.84 37.3086L193.896 37.582L194.162 37.4961C195.402 37.0952 196.747 36.8418 198.162 36.8418C203.654 36.8418 208.26 40.3649 209.562 45.1387L209.612 45.3223H212.51C217.599 45.3224 221.75 49.4709 221.75 54.5176V54.5547C221.75 59.6014 217.599 63.7498 212.51 63.75H9.8252C5.09632 63.75 1.12593 60.1414 0.657227 55.5293L0.633789 55.3047H0.535156C0.539089 55.3008 0.542883 55.2968 0.546875 55.293L0.645508 55.1973L0.618164 55.0635C0.586437 54.9061 0.585938 54.7448 0.585938 54.5566V54.5186C0.586128 49.472 4.73661 45.3244 9.82617 45.3242H18.9258L18.9365 45.0859C19.2997 37.248 26.724 30.916 35.9268 30.916C37.6095 30.916 39.2194 31.1357 40.7568 31.5381L40.9883 31.5986L41.0596 31.3701C44.215 21.1774 53.8328 13.7686 65.2148 13.7686C67.383 13.7686 69.475 14.025 71.4551 14.5381L71.6855 14.5986L71.7568 14.3701C74.0939 6.81877 81.7383 1.28711 90.8711 1.28711C98.0949 1.28723 104.392 4.76747 107.865 9.9541L108.067 10.2559L108.277 9.95996C112.421 4.09882 119.39 0.25 127.278 0.25Z" fill="#FFF9F1" stroke="#262626" stroke-width="0.5"/>
-</svg>
-  </div>
-
-</header>
-
-<!-- Skills strip: the strip is still, the words travel right to left -->
-<section class="marquee" aria-label="Skills">
-  <div class="marquee-strip">
-    <div class="marquee-track">
-      <div class="marquee-group">
-        <span class="marquee-item">UX Designer</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-2)"/></svg>
-        <span class="marquee-item">UI Designer</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">CRO Expert</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-3)"/></svg>
-        <span class="marquee-item">AI-DDLC</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">Prototyping</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-2)"/></svg>
-        <span class="marquee-item">Wireframing</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">Design Systems</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-3)"/></svg>
-        <span class="marquee-item">Responsive Design</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">B2B</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-2)"/></svg>
-        <span class="marquee-item">B2C</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">SaaS</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-2)"/></svg>
-        <span class="marquee-item">Product Designer</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-3)"/></svg>
-      </div>
-      <div class="marquee-group" aria-hidden="true">
-        <span class="marquee-item">UX Designer</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-2)"/></svg>
-        <span class="marquee-item">UI Designer</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">CRO Expert</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-3)"/></svg>
-        <span class="marquee-item">AI-DDLC</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">Prototyping</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-2)"/></svg>
-        <span class="marquee-item">Wireframing</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">Design Systems</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-3)"/></svg>
-        <span class="marquee-item">Responsive Design</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">B2B</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-2)"/></svg>
-        <span class="marquee-item">B2C</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-1)"/></svg>
-        <span class="marquee-item">SaaS</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-2)"/></svg>
-        <span class="marquee-item">Product Designer</span><svg class="spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.5C12.9 7.6 16.4 11.1 22.5 12C16.4 12.9 12.9 16.4 12 22.5C11.1 16.4 7.6 12.9 1.5 12C7.6 11.1 11.1 7.6 12 1.5Z" style="fill:var(--spark-3)"/></svg>
+  <!-- Why this project started -->
+  <section class="cs-section" aria-labelledby="cs-why">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-why">Why this project started?</h2>
+      <div class="cs-copy">
+        <p>Agents and brokers were already working inside the same platform, but communication between them still depended heavily on messaging and email. When a broker had a question about an uploaded document, they had to type out the question and wait for the agent to respond.</p>
+        <p>For simple questions, this created unnecessary back-and-forth and slowed down the verification process. It also meant that important conversations could become fragmented across different communication channels.</p>
+        <p>The opportunity was to bring calling directly into the workflow. Instead of making users leave the dashboard or exchange personal phone numbers, we wanted to create a secure communication layer where they could simply call each other, resolve the issue, and continue their work.</p>
       </div>
     </div>
-  </div>
-</section>
-
-<main class="canvas" id="canvas">
-  <section class="about" aria-label="About">
-    <p class="bio">I’m a UI/UX Designer who loves untangling messy problems and turning them into experiences that just make sense. I blend research, visual design, CRO, and a bit of AI to make products useful, engaging, and human.</p>
-
-    <ul class="stats">
-      <li class="stat"><span class="stat-num" style="--num: var(--num-1)">5+</span><span class="stat-label">Years of<br>experience</span></li>
-      <li class="stat"><span class="stat-num" style="--num: var(--num-2)">30+</span><span class="stat-label">Clients worked<br>with</span></li>
-      <li class="stat"><span class="stat-num" style="--num: var(--num-3)">7+</span><span class="stat-label">Industries &amp;<br>domains</span></li>
-      <li class="stat"><span class="stat-num" style="--num: var(--num-4)">25%</span><span class="stat-label">Business<br>revenue</span></li>
-    </ul>
-  </section>
-
-  <!-- Work: the heading stays pinned mid-screen and shrinks as you scroll;
-       four project cards scroll up over it, tilted at first and straightening at the centre -->
-  <section class="work" id="work" aria-labelledby="workTitle">
-    <div class="work-pin">
-      <h2 class="work-heading" id="workTitle">Work</h2>
-    </div>
-
-    <div class="work-cards">
-      <article class="work-card" style="--panel: var(--panel-1)">
-        <a class="work-link" href="case-roar.html" aria-label="Read the ROAR case study"></a>
-        <div class="work-media">
-          <video src="media/case-1.mp4" poster="media/case-1-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="ROAR case study preview"></video>
-        </div>
-        <div class="work-panel">
-          <ul class="tags"><li class="tag">Product Design</li><li class="tag">UX/UI</li></ul>
-          <h3 class="work-title">ROAR: Smarter Conversations, Seamless Collaboration</h3>
-          <p class="work-desc">A unified communication platform connecting agents, brokers, and clients through calls, recordings, transcripts, and secure communication.</p>
-          <div class="card-stats"><div class="card-stat"><span class="card-stat-num">10K+</span><span class="card-stat-label">Agents using ROAR</span></div><div class="card-stat"><span class="card-stat-num">+26%</span><span class="card-stat-label">Revenue Generated</span></div></div>
-        </div>
-      </article>
-      <article class="work-card" style="--panel: var(--panel-2)">
-        <div class="work-media">
-          <video src="media/case-2.mp4" poster="media/case-2-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="LEO case study preview"></video>
-        </div>
-        <div class="work-panel">
-          <ul class="tags"><li class="tag">AI</li><li class="tag">Product Design</li></ul>
-          <h3 class="work-title">LEO: Your AI Brokerage Assistant</h3>
-          <p class="work-desc">An AI-powered assistant helping agents and brokers find information, understand transactions, and take action without navigating through multiple screens.</p>
-          <div class="card-stats"><div class="card-stat"><span class="card-stat-num">24/7</span><span class="card-stat-label">On-demand Assistance</span></div><div class="card-stat"><span class="card-stat-num">+52%</span><span class="card-stat-label">Boost Work Efficiency</span></div></div>
-        </div>
-      </article>
-      <article class="work-card" style="--panel: var(--panel-3)">
-        <div class="work-media">
-          <video src="media/case-3.mp4" poster="media/case-3-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="PDP Revamp case study preview"></video>
-        </div>
-        <div class="work-panel">
-          <ul class="tags"><li class="tag">CRO</li><li class="tag">UX Strategy</li></ul>
-          <h3 class="work-title">PDP Revamp: Turning Browsers into Buyers</h3>
-          <p class="work-desc">A conversion-focused redesign that simplified product discovery, strengthened hierarchy, and created clearer paths from product evaluation to purchase.</p>
-          <div class="card-stats"><div class="card-stat"><span class="card-stat-num">2+</span><span class="card-stat-label">PDP Revamped</span></div><div class="card-stat"><span class="card-stat-num">24%</span><span class="card-stat-label">Revenue Boost</span></div></div>
-        </div>
-      </article>
-      <article class="work-card" style="--panel: var(--panel-4)">
-        <div class="work-media">
-          <video src="media/case-4.mp4" poster="media/case-4-poster.webp" autoplay muted loop playsinline preload="metadata" aria-label="Hero Banner Revamp case study preview"></video>
-        </div>
-        <div class="work-panel">
-          <ul class="tags"><li class="tag">CRO</li><li class="tag">UI Interaction</li></ul>
-          <h3 class="work-title">Hero Banner Revamp: Designing for the First Impression</h3>
-          <p class="work-desc">A collection of conversion-focused hero experiences designed to communicate value faster, create stronger visual hierarchy, and drive users toward action.</p>
-          <div class="card-stats"><div class="card-stat"><span class="card-stat-num">8+</span><span class="card-stat-label">Happy Clients</span></div><div class="card-stat"><span class="card-stat-num">34%</span><span class="card-stat-label">New Visitors</span></div></div>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- Experience: one row per role; the current role is highlighted -->
-  <section class="experience" id="experience" aria-labelledby="expTitle">
-    <h2 class="exp-heading" id="expTitle">Experience</h2>
-    <ol class="exp-list">
-      <li class="exp-item is-current">
-        <div class="exp-brand"><span class="exp-logo"><svg class="exp-logo-svg" role="img" aria-label="ConvertCart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 159 39"><style>.cc1,.cc2{fill-rule:evenodd;clip-rule:evenodd;fill:#afaeae}.cc2{fill:#fff}.cc4{fill:currentColor}.cc-tile{fill:var(--cc-tile)}</style><path d="M7.2 0h26.4c4 0 7.2 3.2 7.2 7.2v24c0 4-3.2 7.2-7.2 7.2H7.2c-4 0-7.2-3.2-7.2-7.2v-24C0 3.2 3.2 0 7.2 0z" class="cc-tile" fill-rule="evenodd" clip-rule="evenodd"/><path class="cc1" d="M18 29.1c-1.5 1.5-3.8 1.5-5.3 0L5.6 22c-1.5-1.5-1.5-3.8 0-5.3L8.3 14l9.7 9.7c1.5 1.5 1.5 3.9 0 5.4z"/><path class="cc2" d="M10.9 22c-1.4 1.4-1.5 3.7-.1 5.2l.1.1L5.6 22c-1.5-1.5-1.5-3.8 0-5.3l7.1-7.1c1.5-1.5 3.8-1.5 5.3 0s1.5 3.8 0 5.3L10.9 22z"/><g><path class="cc1" d="M22.1 9.6c1.5-1.5 3.8-1.5 5.3 0l7.1 7.1c1.5 1.5 1.5 3.8 0 5.3l-2.7 2.7-9.7-9.7c-1.4-1.6-1.4-4 0-5.4z"/><path class="cc2" d="M22.1 29.1c-1.5-1.5-1.5-3.8 0-5.3l7.1-7.1c1.4-1.4 1.5-3.7.1-5.2l-.1-.1 5.3 5.3c1.5 1.5 1.5 3.8 0 5.3l-7.1 7.1c-1.4 1.4-3.8 1.4-5.3 0z"/></g><g><path class="cc4" d="M55.1 25.2c-.8 0-1.6-.1-2.3-.4-.7-.3-1.2-.7-1.7-1.1s-.8-1-1.1-1.7c-.3-.6-.5-1.3-.6-2-.1-.7-.2-1.4-.2-2.1 0-.9.1-1.7.3-2.5.2-.8.5-1.6 1-2.3s1.1-1.3 1.8-1.8c.8-.4 1.7-.7 2.7-.7 1.2 0 2.3.3 3.1.9.8.6 1.4 1.3 1.8 2.1l-2.2 1c-.4-.6-.8-1-1.2-1.3s-.9-.4-1.5-.4-1.1.2-1.6.5-.8.7-1.1 1.2c-.2.5-.4 1-.5 1.6-.1.6-.2 1.1-.2 1.7 0 1.3.3 2.5.9 3.4.6 1 1.4 1.5 2.5 1.5s2-.6 2.7-1.8l2.3 1c-1 2.1-2.6 3.2-4.9 3.2zM66.5 25.2c-1.4 0-2.6-.5-3.4-1.4-.8-.9-1.3-2.3-1.3-3.9 0-1.7.4-3 1.3-3.9.8-1 2-1.4 3.4-1.4s2.6.5 3.4 1.4c.8 1 1.3 2.3 1.3 3.9 0 1.7-.4 3-1.3 3.9-.8 1-1.9 1.4-3.4 1.4zm0-2.2c.7 0 1.3-.3 1.7-.8.4-.5.6-1.3.6-2.3 0-1-.2-1.7-.6-2.3-.4-.6-1-.8-1.7-.8s-1.3.3-1.7.9c-.4.6-.6 1.3-.6 2.3s.2 1.7.6 2.3c.4.4 1 .7 1.7.7zM80 25v-5.9c0-1.6-.6-2.4-1.9-2.4-1.4 0-2.1.8-2.1 2.3v6h-2.3V14.8H76v1c.7-.8 1.6-1.2 2.7-1.2s1.9.3 2.6 1c.7.7 1 1.7 1 3.2V25H80zM87.8 25l-3.7-10.2h2.4l2.3 6.4c.2.5.3.8.3.9.1-.3.2-.7.3-.9l2.2-6.4H94L90.1 25h-2.3zM100 25.2c-1.5 0-2.6-.5-3.5-1.4-.8-1-1.3-2.3-1.3-3.9 0-1.7.4-3 1.3-3.9.9-1 2-1.4 3.4-1.4 1.3 0 2.4.4 3.2 1.2.8.8 1.2 2 1.2 3.6 0 .5 0 1-.1 1.4h-6.8c0 .7.3 1.3.8 1.7.5.4 1 .7 1.7.7.9 0 1.6-.4 2.2-1.1l1.5 1.5c-.9 1.1-2.1 1.6-3.6 1.6zm-2.4-6.4h4.5c-.1-.7-.3-1.3-.7-1.7-.4-.4-.9-.6-1.5-.6-.7 0-1.2.2-1.7.6-.3.4-.5 1-.6 1.7zM106.9 25V14.8h2.3v1.1c.4-.9 1.1-1.3 2.1-1.3.7 0 1.4.2 1.9.7l-.3 2.1c-.5-.4-1.1-.5-1.7-.5-.5 0-1 .2-1.4.6-.4.4-.6 1-.6 1.9V25h-2.3zM118.2 25.2c-1.6 0-2.4-.9-2.4-2.6v-5.8h-1.5v-2h1.5v-3.1l2.3-1.1v4.2h2.4v2h-2.4v5.3c0 .7.3 1 .9 1 .5 0 1.1-.2 1.6-.5l-.3 2.1c-.5.4-1.2.5-2.1.5zM126.8 25.2c-1.4 0-2.5-.5-3.3-1.4-.8-.9-1.2-2.3-1.2-3.9 0-1.7.4-3 1.2-3.9.8-1 1.9-1.4 3.3-1.4 2.1 0 3.5.9 4.1 2.8l-2.2.7c-.3-.9-.9-1.3-1.8-1.3-.7 0-1.3.3-1.7.8-.4.6-.6 1.3-.6 2.3 0 .9.2 1.7.6 2.2.4.6.9.8 1.6.8.9 0 1.6-.5 1.9-1.5l2.2.7c-.5 2.1-1.9 3.1-4.1 3.1zM139.1 25v-.8c-.7.7-1.6 1.1-2.7 1.1s-2-.3-2.7-.9c-.7-.6-1-1.4-1-2.5s.4-1.9 1.2-2.5 1.7-.9 2.8-.9c1 0 1.8.2 2.4.5v-.5c0-.7-.2-1.1-.5-1.4-.3-.3-.8-.4-1.5-.4-1.1 0-2.1.3-3 1l-.7-1.9c1.1-.7 2.4-1.1 4-1.1.5 0 1 0 1.4.1.4.1.8.3 1.3.5.4.3.8.7 1 1.2.2.5.4 1.2.4 2V25h-2.4zm-2.3-1.8c.9 0 1.7-.3 2.3-1v-1.3c-.6-.3-1.3-.4-2-.4-.6 0-1.1.1-1.5.3-.4.2-.6.6-.6 1s.2.7.5 1c.3.3.7.4 1.3.4zM144.2 25V14.8h2.3v1.1c.4-.9 1.1-1.3 2.1-1.3.7 0 1.4.2 1.9.7l-.3 2.1c-.5-.4-1.1-.5-1.7-.5-.5 0-1 .2-1.4.6s-.6 1-.6 1.9V25h-2.3zM155.5 25.2c-1.6 0-2.4-.9-2.4-2.6v-5.8h-1.5v-2h1.5v-3.1l2.3-1.1v4.2h2.4v2h-2.4v5.3c0 .7.3 1 .9 1 .5 0 1.1-.2 1.6-.5l-.3 2.1c-.5.4-1.2.5-2.1.5z"/></g></svg></span></div>
-        <div class="exp-body">
-          <h3 class="exp-role">Senior UI UX Designer</h3>
-          <p class="exp-company">ConvertCart Pvt. Ltd.<span class="exp-dot" aria-hidden="true">•</span>Full time</p>
-          <p class="exp-meta">Sep 2025 - Present<br>Bengaluru, India</p>
-          <p class="exp-desc">Designed CRO-focused e-commerce experiences for 20–30 global clients, optimizing PDPs, promotional experiences, and conversion journeys through UI/UX, behavioral insights, usability principles, and AI-driven design workflows.</p>
-        </div>
-      </li>
-      <li class="exp-item">
-        <div class="exp-brand"><span class="exp-logo"><img class="exp-logo-img exp-logo-real" src="logos/real.webp" alt="The Real" width="360" height="154" loading="lazy"></span></div>
-        <div class="exp-body">
-          <h3 class="exp-role">UI UX Designer / Product Designer</h3>
-          <p class="exp-company">The Real<span class="exp-dot" aria-hidden="true">•</span>Full time</p>
-          <p class="exp-meta">Apr 2023 - Jul 2025<br>New York, USA</p>
-          <p class="exp-desc">Designed AI-powered and scalable UX solutions for a 14,000+ agent brokerage platform, contributing to its design system, AI assistants, user research, and workflows adopted by 9,000+ agents.</p>
-        </div>
-      </li>
-      <li class="exp-item">
-        <div class="exp-brand"><span class="exp-logo"><img class="exp-logo-img" src="logos/onepixll.webp" alt="OnePixll" width="440" height="117" loading="lazy"></span></div>
-        <div class="exp-body">
-          <h3 class="exp-role">UI UX Designer / Product Designer</h3>
-          <p class="exp-company">OnePixll Design Agency<span class="exp-dot" aria-hidden="true">•</span>Full time</p>
-          <p class="exp-meta">Sep 2021 - Mar 2023<br>Mumbai, India</p>
-          <p class="exp-desc">Delivered end-to-end UI/UX design across 5–6 client projects in mental healthcare, matrimony, HRMS, and medical education, adapting research-driven solutions to diverse user and business needs.</p>
-        </div>
-      </li>
-      <li class="exp-item">
-        <div class="exp-brand"><span class="exp-logo"><img class="exp-logo-img exp-logo-inferente" src="logos/inferente.webp" alt="Inferente" width="440" height="94" loading="lazy"></span></div>
-        <div class="exp-body">
-          <h3 class="exp-role">UI UX Designer &amp; Researcher</h3>
-          <p class="exp-company">Inferente Pvt. Ltd.<span class="exp-dot" aria-hidden="true">•</span>Full time</p>
-          <p class="exp-meta">May 2021 - Aug 2021<br>Uttar Pradesh, India</p>
-          <p class="exp-desc">Led end-to-end UI/UX design and design-to-development handoff for the company website, ensuring a user-friendly and visually consistent experience.</p>
-        </div>
-      </li>
-    </ol>
-  </section>
-
-  <!-- Testimonials: one quote at a time; the avatars below switch between them -->
-  <section class="testimonials" id="testimonials" aria-label="Testimonials">
-    <svg class="tm-quote" viewBox="0 0 30 30" aria-hidden="true" focusable="false"><path transform="matrix(-1 0 0 -1 76.001 256.001)" d="m54.4334094 243.886137c-.7598293 1.064514-2.1960242 2.210486-4.1512585 3.164501-.5081164.247924-.2789027 1.016359.2820027.945409 4.1081402-.519646 6.7708561-2.318857 8.2249178-4.994493.5408062-.995143.8805775-2.054364 1.0615222-3.135641.1193031-.712924.150814-1.247961.150814-1.865913 0-2.761424-2.2385762-5-5-5-2.7614237 0-5 2.238576-5 5s2.274292 5.001554 4.8878174 5.001554c-.1378784.378573-.1709981.485557-.4558156.884583zm11 0c-.7598293 1.064514-2.1960242 2.210486-4.1512585 3.164501-.5081164.247924-.2789027 1.016359.2820027.945409 4.1081402-.519646 6.7708561-2.318857 8.2249178-4.994493.5408062-.995143.8805775-2.054364 1.0615222-3.135641.1193031-.712924.150814-1.247961.150814-1.865913 0-2.761424-2.2385762-5-5-5-2.7614237 0-5 2.238576-5 5s2.274292 5.001554 4.8878174 5.001554c-.1378784.378573-.1709981.485557-.4558156.884583z"/></svg>
-    <figure class="tm-figure" aria-live="polite">
-      <blockquote class="tm-text" id="tmText">Aniket strikes the perfect balance between design and practicality. His solutions are user-friendly, technically feasible, and always delivered with clarity.</blockquote>
-      <figcaption class="tm-cite"><span class="tm-name" id="tmName">Vivek Patel</span><span class="tm-role" id="tmRole">The Real, Manager</span></figcaption>
+    <figure class="cs-figure">
+      <div class="cs-media" style="--ratio: 1080 / 608">
+        <span class="cs-placeholder">R.O.A.R banner: Real Operated Assisted Routing</span>
+      </div>
     </figure>
-    <ul class="tm-avatars"><li><button class="tm-avatar" type="button" data-i="0" aria-label="Show testimonial from Arun Kumar" aria-pressed="false"><span class="tm-avatar-img" style="background-image: url('images/testimonials/arun-kumar.webp')"></span></button></li><li><button class="tm-avatar" type="button" data-i="1" aria-label="Show testimonial from Aditya Bhatnagar" aria-pressed="false"><span class="tm-avatar-img" style="background-image: url('images/testimonials/aditya-bhatnagar.webp')"></span></button></li><li><button class="tm-avatar is-active" type="button" data-i="2" aria-label="Show testimonial from Vivek Patel" aria-pressed="true"><span class="tm-avatar-img" style="background-image: url('images/testimonials/vivek-patel.webp')"></span></button></li><li><button class="tm-avatar" type="button" data-i="3" aria-label="Show testimonial from Abhishek Kashid" aria-pressed="false"><span class="tm-avatar-img" style="background-image: url('images/testimonials/abhishek-kashid.webp')"></span></button></li><li><button class="tm-avatar" type="button" data-i="4" aria-label="Show testimonial from Ankita Patil" aria-pressed="false"><span class="tm-avatar-img" style="background-image: url('images/testimonials/ankita-patil.webp')"></span></button></li></ul>
-    <script type="application/json" id="tmData">[{"quote": "Aniket has a great eye for design and an even better understanding of what makes an experience work. He brings clarity to complex problems and always thinks beyond just the visuals.", "name": "Arun Kumar", "role": "ConvertCart, CEO"}, {"quote": "Aniket is the kind of designer who takes ownership from the first idea to the final design. He’s thoughtful, easy to work with, and always brings something extra to the table.", "name": "Aditya Bhatnagar", "role": "OnePixll, CEO"}, {"quote": "Aniket strikes the perfect balance between design and practicality. His solutions are user-friendly, technically feasible, and always delivered with clarity.", "name": "Vivek Patel", "role": "The Real, Manager"}, {"quote": "What I really like about working with Aniket is how he approaches problems before jumping into the UI. He’s curious, detail-oriented, and always open to exploring a better solution.", "name": "Abhishek Kashid", "role": "The Real, Design Lead"}, {"quote": "Aniket has a strong visual sense, but what stands out is how he connects design back to the user and the business. He’s collaborative, thoughtful, and genuinely cares about the final experience.", "name": "Ankita Patil", "role": "ConvertCart, Design Lead"}]</script>
   </section>
 
-  <!-- More sections will be added here step by step -->
+  <!-- Research and discovery -->
+  <section class="cs-section" aria-labelledby="cs-research">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-research">Research and Discovery</h2>
+      <div class="cs-copy">
+        <h3>Stakeholder Alignment</h3>
+        <p>The project started by understanding how agents and brokers currently communicate during document verification.</p>
+        <p>We mapped the existing workflow and identified the moments where users needed immediate clarification instead of another text-based conversation.</p>
+        <div class="cs-stack">
+          <h3>Key questions included:</h3>
+          <ul class="cs-list">
+            <li>When does a user decide they need to call?</li>
+            <li>What makes messaging slow or frustrating?</li>
+            <li>What information needs to be available during a call?</li>
+            <li>How can we keep communication secure?</li>
+            <li>How should conversations be documented afterward?</li>
+          </ul>
+        </div>
+        <p><strong>Deliverables:</strong> Communication flow, stakeholder insights, opportunity areas.</p>
+      </div>
+    </div>
+    <figure class="cs-figure">
+      <div class="cs-media cs-media--board" style="--ratio: 1080 / 572">
+        <span class="cs-placeholder">Research analysis board</span>
+      </div>
+      <figcaption>These are the direct or indirect competitors based on the UI Components..</figcaption>
+    </figure>
+  </section>
+
+  <!-- Personas -->
+  <section class="cs-section" aria-labelledby="cs-persona">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-persona">Persona Development</h2>
+      <div class="cs-copy">
+        <p>We studied the two primary users involved in the communication workflow: agents who submit and manage documents, and brokers who review those documents and request clarification.</p>
+        <p>The research helped us understand their responsibilities, communication habits, and the situations where text-based communication created unnecessary friction.</p>
+        <div class="cs-stack">
+          <h3>The core users of the system were:</h3>
+          <p><strong>Agents</strong> — who upload documents and respond to broker queries.<br><strong>Brokers</strong> — who review documents and need clarification or additional information.</p>
+        </div>
+      </div>
+    </div>
+    <div class="cs-pair cs-pair--narrow-wide">
+      <figure class="cs-figure">
+        <div class="cs-media"><span class="cs-placeholder">Personas: Jack (agent) and Stephanie (broker)</span></div>
+        <figcaption>The Persona’s</figcaption>
+      </figure>
+      <figure class="cs-figure">
+        <div class="cs-media cs-media--board"><span class="cs-placeholder">Persona mapping board</span></div>
+        <figcaption>The Persona mapping and how they feel...</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- As-is journey -->
+  <section class="cs-section" aria-labelledby="cs-asis">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-asis">As-Is Journey</h2>
+      <div class="cs-copy">
+        <p>We mapped the existing communication journey from the moment a document was uploaded to the point where the broker received clarification from the agent.</p>
+        <p>The workflow depended heavily on messages and emails. A simple question could require multiple messages, waiting for responses, and repeated explanations.</p>
+        <p>We identified bottlenecks around <strong>typing, waiting, context switching, and fragmented communication.</strong></p>
+      </div>
+    </div>
+    <figure class="cs-figure">
+      <div class="cs-media cs-media--board" style="--ratio: 1080 / 571">
+        <span class="cs-placeholder">As-Is journey board</span>
+      </div>
+      <figcaption>The As-Is journey is based on the current workflow of the Real Dashboard</figcaption>
+    </figure>
+  </section>
+
+  <!-- Insights -->
+  <section class="cs-section" aria-labelledby="cs-insights">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-insights">Insights and Pain Points</h2>
+      <div class="cs-copy">
+        <p>After synthesizing the research, we found a few core pain points driving most of the communication friction:</p>
+        <p><strong>Typing a message was inefficient for simple questions that could be resolved through a quick conversation.</strong></p>
+        <p><strong>Users had to wait for responses even when both parties were actively working on the same task.</strong></p>
+        <p><strong>Communication was disconnected from the document and verification workflow.</strong></p>
+        <p><strong>Personal phone numbers could not be freely exchanged because privacy and security were important.</strong></p>
+        <p><strong>Important conversations had limited documentation and were difficult to reference later.</strong></p>
+      </div>
+    </div>
+    <div class="cs-pair cs-pair--narrow-wide">
+      <figure class="cs-figure">
+        <div class="cs-media"><span class="cs-placeholder">Mobile app view</span></div>
+        <figcaption>Mobile app view</figcaption>
+      </figure>
+      <figure class="cs-figure">
+        <div class="cs-media cs-media--board"><span class="cs-placeholder">Insights and pain points board</span></div>
+        <figcaption>Insights and pain points as per the findings</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Use cases -->
+  <section class="cs-section" aria-labelledby="cs-usecases">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-usecases">Use Case Analysis</h2>
+      <div class="cs-copy">
+        <p>We listed the major situations where agents and brokers needed to communicate and prioritized them based on frequency and importance.</p>
+        <p><strong>Document Clarification</strong></p>
+        <p><strong>Verification Questions</strong></p>
+        <p><strong>Issue Resolution</strong></p>
+        <p><strong>Follow-up Discussions</strong></p>
+        <p>The primary opportunity was clear: when a question required more context than a message could provide, users needed a way to start a call without leaving their existing workflow.</p>
+      </div>
+    </div>
+    <div class="cs-pair cs-pair--wide-narrow">
+      <figure class="cs-figure">
+        <div class="cs-media cs-media--board"><span class="cs-placeholder">Use case analysis board</span></div>
+        <figcaption>We map out the use cases that determine calling and transcribing by the other app Inspo...</figcaption>
+      </figure>
+      <figure class="cs-figure">
+        <div class="cs-media"><span class="cs-placeholder">Call feature in the app</span></div>
+        <figcaption>The first initiation of the call feature in the app</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- To-be journey -->
+  <section class="cs-section" aria-labelledby="cs-tobe">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-tobe">To-Be Journey Mapping</h2>
+      <div class="cs-copy">
+        <p>Using the research insights and prioritized use cases, we designed the ideal communication workflow around the user’s existing task.</p>
+        <p>Instead of moving from the dashboard to messages and waiting for a response, users could initiate a secure call directly from the relevant workflow.</p>
+        <p>The new experience focused on <strong>reducing communication steps, keeping users in context, protecting personal numbers, and automatically documenting conversations.</strong></p>
+        <p>We validated the proposed flow against the core agent and broker scenarios to ensure that calling felt like a natural extension of the existing product.</p>
+      </div>
+    </div>
+    <figure class="cs-figure">
+      <div class="cs-media cs-media--board" style="--ratio: 1080 / 607">
+        <span class="cs-placeholder">To-Be journey board</span>
+      </div>
+      <figcaption>As per the research the To-be journey maps out</figcaption>
+    </figure>
+  </section>
+
+  <!-- Prioritisation -->
+  <section class="cs-section" aria-labelledby="cs-mvp">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-mvp">Feature Prioritization and MVP Scope</h2>
+      <div class="cs-copy">
+        <p>We evaluated the proposed ROAR features based on user value, workflow impact, and implementation effort to determine what should be included in the initial experience.</p>
+        <p class="cs-label">Activity</p>
+        <p><strong>Initiate Call<br>Receive Call<br>View Call History</strong></p>
+        <p class="cs-label">Epics</p>
+        <p><strong>Secure Number Masking<br>ROARcording<br>AI Transcription</strong></p>
+      </div>
+    </div>
+    <div class="cs-pair cs-pair--wide-narrow">
+      <figure class="cs-figure">
+        <div class="cs-media cs-media--board"><span class="cs-placeholder">MoSCoW prioritisation board</span></div>
+        <figcaption>We then Initialize the MOSCoW research and made MVP Scope</figcaption>
+      </figure>
+      <figure class="cs-figure">
+        <div class="cs-media"><span class="cs-placeholder">Transcribed phone call</span></div>
+        <figcaption>Transcribed phone call</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Information architecture -->
+  <section class="cs-section" aria-labelledby="cs-ia">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-ia">Information Architecture</h2>
+      <div class="cs-copy">
+        <p>After validating the use cases, I structured the communication experience around the existing agent dashboard rather than creating a completely separate calling product.</p>
+        <p>The core experience was organized around <strong>Dashboard, Documents, Communication, ROAR Calls, and ROARcording</strong>, allowing users to move naturally between their work and conversations.</p>
+      </div>
+    </div>
+    <figure class="cs-figure">
+      <div class="cs-media cs-media--board" style="--ratio: 1080 / 608">
+        <span class="cs-placeholder">Information architecture board</span>
+      </div>
+      <figcaption>Information Architecture of the Agent&lt;&gt;Broker when ROAR is implemented</figcaption>
+    </figure>
+  </section>
+
+  <!-- Reflection -->
+  <section class="cs-section" aria-labelledby="cs-reflection">
+    <div class="cs-row">
+      <h2 class="cs-heading" id="cs-reflection">Reflection and Learnings</h2>
+      <div class="cs-copy">
+        <h3>Designing Communication Around Context</h3>
+        <p>This project taught me that communication doesn’t always need to exist as a separate feature. When users are trying to complete a task, the best communication experience is often the one available exactly when they need it.</p>
+        <h3>From Messages to Conversations</h3>
+        <p>ROAR showed how a simple shift from typing to calling could remove unnecessary friction from the workflow. The goal wasn’t just to make communication faster, but to make collaboration feel more immediate.</p>
+        <h3>Privacy as Part of UX</h3>
+        <p>Number masking wasn’t only a technical requirement. It became an important part of the user experience by allowing agents and brokers to communicate directly without exposing personal contact information.</p>
+        <h3>Making Conversations Actionable</h3>
+        <p>With ROARcording, the conversation doesn’t disappear when the call ends. Recordings and AI-generated transcripts create a useful record that users can reference later, making communication part of the overall workflow rather than a disconnected interaction.</p>
+      </div>
+    </div>
+  </section>
 </main>
 
 <!-- Footer: the hero's cloud idea in reverse. Cream cloud first, lavender cloud on top,
      leaving a cream band along the top edge. Both scale with the page width. -->
-<footer class="site-footer" id="contact">
+<footer class="site-footer site-footer--on-cream" id="contact">
   <div class="footer-clouds" aria-hidden="true">
     <svg class="footer-cloud footer-cloud-cream" viewBox="0 0 2870 652" preserveAspectRatio="none" focusable="false"><path d="M2870 429.575C2870 414.259 2799.59 401.787 2710.52 400.736C2710.53 400.342 2710.59 399.944 2710.59 399.531C2710.59 371.856 2683.71 349.457 2650.57 349.457C2637.14 349.457 2624.79 353.175 2614.81 359.376C2614.65 359.153 2614.49 358.95 2614.33 358.739C2600.93 303.288 2542.22 261.531 2471.82 261.531C2459.81 261.531 2448.2 262.878 2437.04 265.167C2422.97 239.396 2391.9 221.466 2355.75 221.466C2329.31 221.466 2305.62 231.088 2289.27 246.324C2270.93 224.566 2240.65 210.333 2206.37 210.333C2201.37 210.333 2196.5 210.727 2191.7 211.316C2195.21 200.813 2197 190.015 2197.04 179.173C2197.04 112.164 2131.93 57.865 2051.63 57.865C2009.61 57.865 1971.89 72.817 1945.33 96.571C1926.09 59.404 1881.8 33.369 1830.19 33.369C1786.06 33.369 1747.33 52.435 1724.98 81.181C1709.86 61.165 1683.22 47.841 1652.78 47.841C1644.39 47.841 1636.32 48.884 1628.67 50.771C1609.37 20.564 1571.27 0 1527.38 0C1484.84 0 1447.79 19.347 1427.99 48.036C1426.44 47.967 1424.89 47.841 1423.32 47.841C1392.01 47.841 1364.7 61.952 1349.84 82.922C1323.5 61.932 1287.88 48.965 1248.58 48.965C1205.35 48.965 1166.6 64.647 1139.75 89.465C1102.05 66.814 1055.81 53.421 1005.8 53.421C936.999 53.421 875.315 78.718 833.261 118.722C816.677 112.561 798.356 109.059 779.026 109.059C705.362 109.059 645.631 158.868 645.631 220.346C645.631 222.667 645.879 224.936 646.053 227.213C638.98 225.634 631.655 224.819 624.29 224.79C591.396 224.79 562.895 240.342 548.624 263.093C531.264 255.739 511.691 251.507 490.894 251.507C435.846 251.507 389.046 280.561 370.941 321.231C367.383 320.772 363.783 320.532 360.176 320.512C321.553 320.512 289.806 344.944 285.872 376.288C284.848 376.239 283.829 376.166 282.794 376.166C259.204 376.166 239.436 389.608 233.776 407.822C227.892 407.49 221.994 407.318 216.094 407.307C168.01 407.307 127.646 417.79 115.724 432.014C111.831 431.878 107.936 431.808 104.039 431.803C46.579 431.803 0 446.734 0 465.18C0 483.626 46.579 498.569 104.039 498.569C111.463 498.569 118.691 498.317 125.687 497.83C142.725 508.813 177.957 516.378 218.765 516.378C222.767 516.378 226.706 516.288 230.587 516.146C235.333 534.097 254.499 547.55 277.461 547.55C282.694 547.55 287.725 546.82 292.446 545.525C308.945 564.263 335.482 576.471 365.492 576.471C380.529 576.471 394.669 573.37 407.172 567.973C420.593 578.732 438.787 585.375 458.856 585.375C479.199 585.375 497.61 578.577 511.079 567.587C534.543 591.978 570.52 607.632 610.931 607.632C644.179 607.632 674.348 596.987 697.114 579.661C707.679 598.788 730.784 612.088 757.674 612.088C781.698 612.088 802.685 601.463 814.433 585.566C833.72 595.27 856.228 600.956 880.394 600.956C910.125 600.956 937.406 592.425 959.148 578.257C971.345 589.45 988.884 596.532 1008.46 596.532C1027.64 596.532 1044.89 589.714 1057.07 578.894C1075.58 602.859 1107.8 618.756 1144.51 618.756C1173.49 618.756 1199.69 608.87 1218.55 592.912C1253.26 615.582 1304.03 629.888 1360.63 629.888C1430.31 629.888 1491.17 608.212 1524.07 575.948C1544.18 603.582 1580.5 622.108 1622.09 622.108C1635.94 622.108 1649.14 619.961 1661.42 616.211C1676.64 637.06 1704.05 651.037 1735.47 651.037C1766.61 651.037 1793.87 637.279 1809.15 616.694C1843.5 637.571 1885.78 649.921 1931.55 649.921C2003.06 649.921 2066.14 619.836 2103.6 573.987C2126.44 593.995 2158.6 606.524 2194.34 606.524C2231.62 606.524 2264.99 592.892 2287.96 571.333C2296.2 573.886 2305.09 575.363 2314.4 575.363C2325.06 575.363 2335.2 573.508 2344.42 570.197C2369.27 576.297 2397.9 579.811 2428.44 579.811C2515.43 579.811 2587.11 551.609 2598.2 515.071C2599.63 515.152 2601.07 515.253 2602.53 515.253C2622.9 515.253 2640.87 506.767 2651.73 493.821C2660.28 497.648 2670 499.668 2679.89 499.677C2709.75 499.677 2734.45 481.475 2739.08 457.668C2814.18 454.583 2870 443.2 2870 429.575Z"/></svg>
     <svg class="footer-cloud footer-cloud-sky" viewBox="0 0 2747 754" preserveAspectRatio="none" focusable="false"><path d="M2746.37 497.219C2746.37 479.491 2678.99 465.055 2593.75 463.839C2593.77 463.383 2593.82 462.923 2593.82 462.444C2593.82 430.411 2568.1 404.485 2536.39 404.485C2523.54 404.485 2511.72 408.788 2502.17 415.966C2502.02 415.708 2501.86 415.473 2501.71 415.229C2488.88 351.046 2432.71 302.714 2365.34 302.714C2353.85 302.714 2342.74 304.273 2332.06 306.922C2318.59 277.093 2288.87 256.339 2254.27 256.339C2228.97 256.339 2206.3 267.477 2190.65 285.112C2173.1 259.928 2144.13 243.454 2111.32 243.454C2106.54 243.454 2101.88 243.91 2097.29 244.591C2100.64 232.434 2102.36 219.937 2102.39 207.387C2102.39 129.826 2040.1 66.977 1963.25 66.977C1923.04 66.977 1886.95 84.283 1861.53 111.778C1843.12 68.758 1800.73 38.623 1751.34 38.623C1709.12 38.623 1672.06 60.692 1650.67 93.965C1636.21 70.796 1610.71 55.374 1581.58 55.374C1573.56 55.374 1565.83 56.582 1558.51 58.766C1540.04 23.802 1503.58 0 1461.58 0C1420.88 0 1385.43 22.393 1366.47 55.6C1364.99 55.52 1363.51 55.374 1362.01 55.374C1332.04 55.374 1305.91 71.708 1291.69 95.98C1266.49 71.684 1232.4 56.676 1194.79 56.676C1153.43 56.676 1116.35 74.827 1090.65 103.552C1054.57 77.335 1010.33 61.834 962.468 61.834C896.635 61.834 837.608 91.113 797.365 137.417C781.496 130.286 763.964 126.232 745.467 126.232C674.976 126.232 617.818 183.885 617.818 255.043C617.818 257.73 618.056 260.356 618.222 262.991C611.454 261.164 604.445 260.22 597.396 260.187C565.92 260.187 538.647 278.188 524.99 304.522C508.378 296.01 489.649 291.111 469.747 291.111C417.071 291.111 372.286 324.74 354.962 371.814C351.557 371.284 348.112 371.006 344.66 370.983C307.702 370.983 277.321 399.262 273.557 435.541C272.577 435.484 271.602 435.4 270.612 435.4C248.038 435.4 229.122 450.958 223.705 472.041C218.074 471.656 212.431 471.457 206.785 471.444C160.773 471.444 122.147 483.578 110.739 500.043C107.014 499.885 103.286 499.803 99.558 499.798C44.572 499.798 0 517.081 0 538.431C0 559.781 44.572 577.077 99.558 577.077C106.661 577.077 113.578 576.786 120.272 576.222C136.577 588.934 170.291 597.69 209.341 597.69C213.171 597.69 216.94 597.587 220.654 597.422C225.196 618.2 243.536 633.772 265.509 633.772C270.516 633.772 275.331 632.926 279.848 631.428C295.636 653.116 321.03 667.247 349.748 667.247C364.137 667.247 377.667 663.658 389.631 657.41C402.475 669.863 419.885 677.553 439.089 677.553C458.556 677.553 476.174 669.685 489.063 656.964C511.516 685.196 545.943 703.314 584.614 703.314C616.429 703.314 645.298 690.993 667.084 670.939C677.194 693.078 699.303 708.472 725.035 708.472C748.024 708.472 768.107 696.174 779.349 677.774C797.805 689.005 819.343 695.587 842.468 695.587C870.918 695.587 897.024 685.713 917.83 669.313C929.501 682.269 946.285 690.466 965.014 690.466C983.375 690.466 999.881 682.575 1011.53 670.051C1029.25 697.79 1060.07 716.19 1095.21 716.19C1122.94 716.19 1148.01 704.747 1166.06 686.276C1199.27 712.517 1247.86 729.075 1302.02 729.075C1368.69 729.075 1426.93 703.986 1458.41 666.641C1477.66 698.626 1512.41 720.07 1552.21 720.07C1565.46 720.07 1578.1 717.585 1589.84 713.245C1604.42 737.376 1630.64 753.554 1660.7 753.554C1690.5 753.554 1716.59 737.63 1731.21 713.804C1764.08 737.968 1804.54 752.262 1848.34 752.262C1916.78 752.262 1977.14 717.44 2012.98 664.372C2034.84 687.53 2065.62 702.032 2099.81 702.032C2135.49 702.032 2167.42 686.253 2189.4 661.299C2197.28 664.254 2205.79 665.964 2214.7 665.964C2224.9 665.964 2234.6 663.817 2243.43 659.984C2267.21 667.045 2294.6 671.113 2323.83 671.113C2407.07 671.113 2475.66 638.469 2486.27 596.178C2487.65 596.272 2489.02 596.389 2490.42 596.389C2509.91 596.389 2527.1 586.566 2537.5 571.581C2545.68 576.011 2554.98 578.35 2564.45 578.36C2593.02 578.36 2616.65 557.291 2621.09 529.736C2692.95 526.166 2746.37 512.989 2746.37 497.219Z"/></svg>
@@ -1153,281 +593,6 @@
     </div>
   </div>
 </footer>
-
-<!-- Cursor pill shown over case study cards -->
-<div class="view-cursor" aria-hidden="true">
-  <span class="view-cursor-pill"><span class="view-cursor-track"><span>View more</span><span aria-hidden="true">•</span><span>View more</span><span aria-hidden="true">•</span><span>View more</span><span aria-hidden="true">•</span><span>View more</span><span aria-hidden="true">•</span></span></span>
-</div>
-
-<script>
-  // Fit ANIKET to 54.5% of the cloud width, whatever the font's exact metrics.
-  (function () {
-    var name = document.getElementById("introFirst");
-    var cloud = document.querySelector(".scene");
-    if (!name || !cloud) return;
-
-    function fit() {
-      name.style.fontSize = "100px";
-      var measured = name.getBoundingClientRect().width;
-      var target = cloud.getBoundingClientRect().width * 0.5455;
-      if (measured > 0) name.style.fontSize = (100 * target / measured) + "px";
-    }
-
-    fit();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
-    window.addEventListener("resize", fit);
-  })();
-</script>
-
-<script>
-  // Cursor drift for the hero. Layers with data-depth ease a few pixels toward
-  // the cursor (depth = share of the cloud width at the screen edge, so the
-  // movement scales with the design). Shapes are only moved, never changed.
-  (function () {
-    var hero = document.querySelector(".hero");
-    var scene = document.querySelector(".scene");
-    if (!hero || !scene) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    var layers = Array.prototype.slice.call(scene.querySelectorAll("[data-depth]")).map(function (el) {
-      return { el: el, depth: parseFloat(el.getAttribute("data-depth")) || 0 };
-    });
-
-    var target = { x: 0, y: 0 };
-    var current = { x: 0, y: 0 };
-    var running = false;
-
-    function onMove(e) {
-      if (e.pointerType && e.pointerType !== "mouse") return;
-      var r = hero.getBoundingClientRect();
-      target.x = Math.max(-1, Math.min(1, ((e.clientX - r.left) / r.width) * 2 - 1));
-      target.y = Math.max(-1, Math.min(1, ((e.clientY - r.top) / r.height) * 2 - 1));
-      start();
-    }
-
-    function onLeave() {
-      target.x = 0; target.y = 0;
-      start();
-    }
-
-    function start() {
-      if (!running) { running = true; requestAnimationFrame(tick); }
-    }
-
-    function tick() {
-      current.x += (target.x - current.x) * 0.06;
-      current.y += (target.y - current.y) * 0.06;
-      var w = scene.getBoundingClientRect().width;
-      for (var i = 0; i < layers.length; i++) {
-        var d = layers[i].depth * w;
-        layers[i].el.style.transform =
-          "translate3d(" + (current.x * d).toFixed(2) + "px," + (current.y * d).toFixed(2) + "px,0)";
-      }
-      if (Math.abs(target.x - current.x) > 0.001 || Math.abs(target.y - current.y) > 0.001) {
-        requestAnimationFrame(tick);
-      } else {
-        running = false;
-      }
-    }
-
-    hero.addEventListener("pointermove", onMove);
-    hero.addEventListener("pointerleave", onLeave);
-  })();
-</script>
-
-<script>
-  // Eyes follow the cursor. Each pupil moves toward the pointer by at most a few
-  // image pixels (data-mx / data-my) and is clipped to its eye, so it never leaves it.
-  (function () {
-    var hero = document.querySelector(".hero");
-    var svg = document.querySelector(".portrait .eyes");
-    if (!hero || !svg) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    var pupils = Array.prototype.slice.call(svg.querySelectorAll(".pupil")).map(function (el) {
-      return {
-        el: el,
-        cx: +el.getAttribute("data-cx"), cy: +el.getAttribute("data-cy"),
-        mx: +el.getAttribute("data-mx"), my: +el.getAttribute("data-my"),
-        tx: 0, ty: 0, x: 0, y: 0
-      };
-    });
-
-    var running = false;
-
-    function aim(clientX, clientY) {
-      var ctm = svg.getScreenCTM();
-      var r = hero.getBoundingClientRect();
-      for (var i = 0; i < pupils.length; i++) {
-        var p = pupils[i];
-        var ex = ctm ? ctm.a * p.cx + ctm.e : r.left + r.width / 2;
-        var ey = ctm ? ctm.d * p.cy + ctm.f : r.top + r.height / 2;
-        var nx = (clientX - ex) / (r.width * 0.4);
-        var ny = (clientY - ey) / (r.height * 0.4);
-        var len = Math.sqrt(nx * nx + ny * ny);
-        if (len > 1) { nx /= len; ny /= len; }
-        p.tx = nx * p.mx; p.ty = ny * p.my;
-      }
-      start();
-    }
-
-    function relax() {
-      for (var i = 0; i < pupils.length; i++) { pupils[i].tx = 0; pupils[i].ty = 0; }
-      start();
-    }
-
-    function start() { if (!running) { running = true; requestAnimationFrame(tick); } }
-
-    function tick() {
-      var moving = false;
-      for (var i = 0; i < pupils.length; i++) {
-        var p = pupils[i];
-        p.x += (p.tx - p.x) * 0.12;
-        p.y += (p.ty - p.y) * 0.12;
-        p.el.setAttribute("transform", "translate(" + p.x.toFixed(2) + " " + p.y.toFixed(2) + ")");
-        if (Math.abs(p.tx - p.x) > 0.02 || Math.abs(p.ty - p.y) > 0.02) moving = true;
-      }
-      if (moving) requestAnimationFrame(tick); else running = false;
-    }
-
-    hero.addEventListener("pointermove", function (e) {
-      if (e.pointerType && e.pointerType !== "mouse") return;
-      aim(e.clientX, e.clientY);
-    });
-    hero.addEventListener("pointerleave", relax);
-  })();
-</script>
-
-<script>
-  // Work section: heading shrinks as the section scrolls by (and grows back on
-  // the way up); each card tilts as it enters and straightens at the centre.
-  (function () {
-    var section = document.querySelector(".work");
-    var heading = document.querySelector(".work-heading");
-    var cards = Array.prototype.slice.call(document.querySelectorAll(".work-card"));
-    if (!section || !heading) return;
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var queued = false;
-
-    function update() {
-      queued = false;
-      var vh = window.innerHeight;
-      var r = section.getBoundingClientRect();
-      // 0 when the section's top reaches the top of the screen, 1 at its end
-      var total = Math.max(1, r.height - vh);
-      var p = Math.min(1, Math.max(0, -r.top / total));
-      heading.style.setProperty("--work-scale", (1 - p * 0.55).toFixed(4));
-
-      if (reduce) return;
-      for (var i = 0; i < cards.length; i++) {
-        var c = cards[i].getBoundingClientRect();
-        // -1 below the screen centre ... 0 at centre ... +1 above
-        var d = ((vh / 2) - (c.top + c.height / 2)) / vh;
-        d = Math.max(-1, Math.min(1, d));
-        var dir = i % 2 === 0 ? -1 : 1;
-        var tilt = d < 0 ? dir * 5 * -d : dir * 2 * d;
-        var grow = 1 - Math.min(0.06, Math.abs(d) * 0.06);
-        cards[i].style.setProperty("--tilt", tilt.toFixed(2) + "deg");
-        cards[i].style.setProperty("--grow", grow.toFixed(4));
-      }
-    }
-
-    function queue() { if (!queued) { queued = true; requestAnimationFrame(update); } }
-    window.addEventListener("scroll", queue, { passive: true });
-    window.addEventListener("resize", queue);
-    update();
-  })();
-</script>
-
-<script>
-  // Over a case study card, the mouse cursor becomes the "View more" pill.
-  (function () {
-    var cursor = document.querySelector(".view-cursor");
-    var cards = document.querySelectorAll(".work-card");
-    if (!cursor || !cards.length) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-
-    var x = -200, y = -200, tx = -200, ty = -200, running = false, on = false;
-
-    function tick() {
-      x += (tx - x) * 0.35;
-      y += (ty - y) * 0.35;
-      cursor.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0)";
-      if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3) requestAnimationFrame(tick);
-      else running = false;
-    }
-    function move(e) {
-      tx = e.clientX; ty = e.clientY;
-      if (!on) { x = tx; y = ty; }
-      if (!running) { running = true; requestAnimationFrame(tick); }
-    }
-
-    Array.prototype.forEach.call(cards, function (card) {
-      card.addEventListener("pointerenter", function (e) {
-        if (e.pointerType !== "mouse") return;
-        move(e); on = true; cursor.classList.add("is-on");
-      });
-      card.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse") move(e); });
-      card.addEventListener("pointerleave", function () { on = false; cursor.classList.remove("is-on"); });
-    });
-    // Keep the pill under the pointer while the page scrolls under a still mouse
-    window.addEventListener("scroll", function () {
-      if (!on) return;
-      var el = document.elementFromPoint(tx, ty);
-      if (!el || !el.closest(".work-card")) { on = false; cursor.classList.remove("is-on"); }
-    }, { passive: true });
-  })();
-</script>
-
-<script>
-  // Case study clips: play only while on screen (saves battery and data),
-  // and stay paused on the poster frame for visitors who prefer less motion.
-  (function () {
-    var vids = Array.prototype.slice.call(document.querySelectorAll(".work-media video"));
-    if (!vids.length) return;
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    vids.forEach(function (v) { v.muted = true; if (reduce) { v.removeAttribute("autoplay"); v.pause(); } });
-    if (reduce || !("IntersectionObserver" in window)) return;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        var v = e.target;
-        if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-        else v.pause();
-      });
-    }, { threshold: 0.15 });
-    vids.forEach(function (v) { io.observe(v); });
-  })();
-</script>
-
-<script>
-  // Testimonials: clicking an avatar shows that person's quote.
-  (function () {
-    var root = document.querySelector(".testimonials");
-    var dataEl = document.getElementById("tmData");
-    if (!root || !dataEl) return;
-    var data = JSON.parse(dataEl.textContent);
-    var text = document.getElementById("tmText");
-    var name = document.getElementById("tmName");
-    var role = document.getElementById("tmRole");
-    var btns = Array.prototype.slice.call(root.querySelectorAll(".tm-avatar"));
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    function show(i) {
-      var t = data[i];
-      btns.forEach(function (b, j) {
-        b.classList.toggle("is-active", j === i);
-        b.setAttribute("aria-pressed", j === i ? "true" : "false");
-      });
-      function swap() { text.textContent = t.quote; name.textContent = t.name; role.textContent = t.role; }
-      if (reduce) { swap(); return; }
-      root.classList.add("is-swapping");
-      setTimeout(function () { swap(); root.classList.remove("is-swapping"); }, 220);
-    }
-    btns.forEach(function (b) {
-      b.addEventListener("click", function () { show(+b.getAttribute("data-i")); });
-    });
-  })();
-</script>
 
 <script src="js/site.js"></script>
 </body>
