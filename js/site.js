@@ -72,3 +72,53 @@
   window.addEventListener("scroll", function () { if (!queued) { queued = true; requestAnimationFrame(update); } }, { passive: true });
   update();
 })();
+
+// Tablets and phones: the menu button opens the links in a sheet under the pill and
+// blurs the page. Tapping a link, the blurred page or the × (or pressing Escape) closes it.
+(function () {
+  var nav = document.querySelector(".site-nav");
+  var toggle = nav && nav.querySelector(".nav-toggle");
+  var sheet = document.getElementById("navSheet");
+  var backdrop = document.querySelector(".nav-backdrop");
+  if (!toggle || !sheet) return;
+  var root = document.documentElement;
+
+  function isOpen() { return nav.classList.contains("is-open"); }
+
+  // focusMenu: move focus into the sheet (keyboard users only, so a tap shows no focus ring)
+  function setOpen(open, returnFocus, focusMenu) {
+    nav.classList.toggle("is-open", open);
+    root.classList.toggle("nav-open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    if (open && focusMenu) {
+      var first = sheet.querySelector("a");
+      if (first) first.focus({ preventScroll: true });
+    } else if (!open && returnFocus) {
+      toggle.focus({ preventScroll: true });
+    }
+  }
+
+  // e.detail is 0 when the button was pressed with Enter or Space
+  toggle.addEventListener("click", function (e) { setOpen(!isOpen(), false, e.detail === 0); });
+
+  // While open, keep the page exactly where the visitor left it: block scrolling
+  // gestures instead of changing the page's overflow (which jumps to the top).
+  function blockScroll(e) { if (isOpen()) e.preventDefault(); }
+  [backdrop, nav].forEach(function (el) {
+    if (!el) return;
+    el.addEventListener("touchmove", blockScroll, { passive: false });
+    el.addEventListener("wheel", blockScroll, { passive: false });
+  });
+  if (backdrop) backdrop.addEventListener("click", function () { setOpen(false, false); });
+  // Close before the browser follows the link, so the page can scroll to the section
+  sheet.addEventListener("click", function (e) { if (e.target.closest("a")) setOpen(false, false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && isOpen()) setOpen(false, true);
+  });
+  // Rotating a tablet up to desktop width: put the page back to normal
+  var desktop = window.matchMedia("(min-width: 1025px)");
+  function onWide() { if (desktop.matches && isOpen()) setOpen(false, false); }
+  if (desktop.addEventListener) desktop.addEventListener("change", onWide);
+  else if (desktop.addListener) desktop.addListener(onWide);
+})();

@@ -135,6 +135,7 @@
   .decor-drift  { left:  8.90%; top: calc(var(--cloud-width) * 0.4730); width: 18.60%; }
   .decor-bank   { left: 75.00%; top: calc(var(--cloud-width) * 0.4615); width: 18.50%; }
 
+
   .cloud .cloud-cream { fill: var(--cloud); }
   .cloud .cloud-sky { fill: var(--canvas); }
 
@@ -187,6 +188,36 @@
     font-size: max(16px, calc(var(--cloud-width) * 0.0195));
     line-height: 1;
     align-self: flex-end;
+  }
+
+  /* Tall cloud layers: phones only */
+  .cloud-m { display: none; }
+
+  /* ---------- Phones: a tall hero, from the 360px-wide mobile design ----------
+     Everything is placed in design pixels (--u = one pixel of the 360px design), so
+     the layout keeps its proportions on any phone width. */
+  @media (max-width: 600px) {
+    :root { --u: calc(100vw / 360); }
+    .hero { height: calc(var(--u) * 600); }
+    .scene { left: 0; transform: none; width: 100%; height: 100%; aspect-ratio: auto; }
+
+    .cloud-back, .cloud-front { display: none; }
+    .cloud-m { display: block; inset: auto; left: 0; width: 100%; height: auto; }
+    .cloud-back-m  { z-index: 1; top: calc(var(--u) * 69); }
+    .cloud-front-m { z-index: 4; top: calc(var(--u) * -10); }
+
+    .intro { top: calc(var(--u) * 248); }
+    .intro-roles { font-size: calc(var(--u) * 9); margin-bottom: calc(var(--u) * 6); }
+    .intro-first { font-size: calc(var(--u) * 55); }
+    .intro-last { font-size: calc(var(--u) * 14); margin-top: calc(var(--u) * 6); }
+
+    .portrait { left: calc(var(--u) * 81); top: calc(var(--u) * 282); width: calc(var(--u) * 195); }
+
+    .decor-breeze { left: calc(var(--u) * 7.5);  top: calc(var(--u) * 194.5); width: calc(var(--u) * 61.5); }
+    .decor-sun    { left: calc(var(--u) * 230);  top: calc(var(--u) * 175.5); width: calc(var(--u) * 119); }
+    .decor-puffs  { left: calc(var(--u) * 283);  top: calc(var(--u) * 401);   width: calc(var(--u) * 56.5); }
+    .decor-bank   { left: calc(var(--u) * 220);  top: calc(var(--u) * 509);   width: calc(var(--u) * 108); }
+    .decor-drift  { left: calc(var(--u) * 13);   top: calc(var(--u) * 543.5); width: calc(var(--u) * 137.5); }
   }
 
   /* Skills strip */
@@ -317,9 +348,14 @@
     .stats { max-width: 560px; }
   }
 
-  /* Phones: one pill per row, all the same width, content centred */
+  /* Phones: one pill per row, all the same width. Content sits on the left with a
+     bigger number that fills the pill; the numbers share a fixed column so the
+     labels line up down the stack. */
   @media (max-width: 480px) {
     .stats { flex-direction: column; align-items: stretch; max-width: 300px; }
+    .stat { justify-content: flex-start; gap: 16px; padding: 18px 28px; }
+    .stat-num { font-size: 44px; line-height: 1.1; min-width: 2.3em; }
+    .stat-label { font-size: 16px; }
   }
 
   /* ---------- Work ---------- */
@@ -744,7 +780,8 @@
 </style>
 </head>
 <body>
-<!-- Sticky navbar: frosted cream pill that blurs whatever scrolls beneath it -->
+<!-- Sticky navbar: frosted cream pill that blurs whatever scrolls beneath it.
+     On tablets and phones it shows a menu button instead of the links. -->
 <nav class="site-nav" aria-label="Main">
   <a class="nav-logo" href="#top" aria-label="Aniket Kale, back to top">
     <img src="images/logo-ak.webp" alt="" width="160" height="158">
@@ -754,7 +791,22 @@
     <a class="nav-link" href="#experience">Experience</a>
     <a class="nav-cta" href="#contact">Connect With Me</a>
   </div>
+  <!-- Tablets and phones: the links move into a sheet that drops down from the pill -->
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navSheet" aria-label="Open menu">
+    <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+  <div class="nav-sheet" id="navSheet">
+    <div class="nav-sheet-inner">
+      <div class="nav-sheet-links">
+        <a class="nav-sheet-link" href="#work">Work</a>
+        <a class="nav-sheet-link" href="#experience">Experience</a>
+      </div>
+      <hr class="nav-sheet-rule">
+      <a class="nav-sheet-cta" href="#contact">Connect With Me</a>
+    </div>
+  </div>
 </nav>
+<div class="nav-backdrop" aria-hidden="true"></div>
 
 <header class="hero" id="top">
   <!-- Two layers in one drawing so they always line up:
@@ -776,6 +828,25 @@
       <ellipse cx="8.69116" cy="144.292" rx="155.422" ry="142.688"/>
       <ellipse cx="155.422" cy="142.688" rx="155.422" ry="142.688" transform="matrix(-1 0 0 1 1347.32 1.604)"/>
     </g>
+  </svg>
+  <!-- Phones: a tall version of the same two cloud layers (from the mobile design) -->
+  <svg class="cloud cloud-m cloud-back-m" viewBox="0 0 360 740" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <mask id="heroMaskCreamM" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-80" y="0" width="516" height="830">
+<path d="M-79.7002 0H435.429V829.891H-79.7002V0Z" fill="#FFF9F1"/>
+</mask>
+<g mask="url(#heroMaskCreamM)" class="cloud-cream">
+<path d="M-79.7002 13.417L55.9301 378.675L170.062 483.073L305.925 341.319L435.429 13.417V829.9H-79.7002V13.417Z"/>
+<ellipse cx="159.743" cy="478.581" rx="36.2424" ry="69.7779"/>
+<ellipse cx="36.2424" cy="69.7779" rx="36.2424" ry="69.7779" transform="matrix(-1 0 0 1 232.23 408.803)"/>
+<ellipse cx="110.363" cy="419.655" rx="36.2424" ry="69.7779"/>
+<ellipse cx="36.2424" cy="69.7779" rx="36.2424" ry="69.7779" transform="matrix(-1 0 0 1 281.609 349.877)"/>
+<ellipse cx="60.8899" cy="349.878" rx="36.2424" ry="69.7779"/>
+<ellipse cx="36.2424" cy="69.7779" rx="36.2424" ry="69.7779" transform="matrix(-1 0 0 1 331.081 280.1)"/>
+<ellipse cx="24.6511" cy="269.696" rx="41.6462" ry="80.1819"/>
+<ellipse cx="41.6462" cy="80.1819" rx="41.6462" ry="80.1819" transform="matrix(-1 0 0 1 372.729 189.514)"/>
+<ellipse cx="-5.30442" cy="146.196" rx="48.1214" ry="92.6486"/>
+<ellipse cx="48.1214" cy="92.6486" rx="48.1214" ry="92.6486" transform="matrix(-1 0 0 1 409.159 53.5476)"/>
+</g>
   </svg>
 
   <div class="intro">
@@ -819,6 +890,24 @@
       <ellipse cx="-102.669" cy="98.1593" rx="184.649" ry="176.279"/>
       <ellipse cx="184.649" cy="176.279" rx="184.649" ry="176.279" transform="matrix(-1 0 0 1 1487.68 -78.1194)"/>
     </g>
+  </svg>
+  <svg class="cloud cloud-m cloud-front-m" viewBox="0 0 360 812" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <mask id="heroMaskSkyM" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="-128" y="0" width="612" height="1052">
+<path d="M-128 0H484V1052H-128V0Z" fill="#E3E3FF"/>
+</mask>
+<g mask="url(#heroMaskSkyM)" class="cloud-sky">
+<path d="M-128 17.0002L33.1357 480.015L168.73 612.353L330.142 432.661L484 17.0002V1052H-128V17.0002Z"/>
+<ellipse cx="156.473" cy="606.665" rx="43.0579" ry="88.4531"/>
+<ellipse cx="43.0579" cy="88.4531" rx="43.0579" ry="88.4531" transform="matrix(-1 0 0 1 242.588 518.212)"/>
+<ellipse cx="97.8079" cy="531.973" rx="43.0579" ry="88.4531"/>
+<ellipse cx="43.0579" cy="88.4531" rx="43.0579" ry="88.4531" transform="matrix(-1 0 0 1 301.251 443.52)"/>
+<ellipse cx="39.0295" cy="443.515" rx="43.0579" ry="88.4531"/>
+<ellipse cx="43.0579" cy="88.4531" rx="43.0579" ry="88.4531" transform="matrix(-1 0 0 1 360.028 355.062)"/>
+<ellipse cx="-4.02709" cy="341.878" rx="49.4778" ry="101.641"/>
+<ellipse cx="49.4778" cy="101.641" rx="49.4778" ry="101.641" transform="matrix(-1 0 0 1 409.506 240.237)"/>
+<ellipse cx="-39.6135" cy="185.322" rx="57.1706" ry="117.445"/>
+<ellipse cx="57.1706" cy="117.445" rx="57.1706" ry="117.445" transform="matrix(-1 0 0 1 452.787 67.8774)"/>
+</g>
   </svg>
 
   <!-- Small clouds and sun, placed as in the reference design -->
@@ -1169,7 +1258,11 @@
     var cloud = document.querySelector(".scene");
     if (!name || !cloud) return;
 
+    // Phones use the fixed sizes from the mobile design (set in the CSS)
+    var phone = window.matchMedia("(max-width: 600px)");
+
     function fit() {
+      if (phone.matches) { name.style.fontSize = ""; return; }
       name.style.fontSize = "100px";
       var measured = name.getBoundingClientRect().width;
       var target = cloud.getBoundingClientRect().width * 0.5455;

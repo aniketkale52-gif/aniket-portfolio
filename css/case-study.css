@@ -169,6 +169,11 @@ body {
   .cs-pair--narrow-wide, .cs-pair--wide-narrow { grid-template-columns: minmax(0, 1fr); }
   .cs-meta { grid-template-columns: repeat(2, auto); }
 }
-@media (max-width: 380px) {
-  .cs-stats { grid-template-columns: minmax(0, 1fr); }
+/* Phones: keep the 2 × 2 grid, with tighter boxes so the text fits two across */
+@media (max-width: 480px) {
+  .cs-stats { gap: 10px; }
+  .cs-stat { padding: 14px 14px 16px; border-radius: 14px; }
+  .cs-stat svg { margin-bottom: 8px; }
+  .cs-stat-label { font-size: 13px; }
+  .cs-stat-value { font-size: 14px; }
 }

@@ -18,7 +18,11 @@ img { max-width: 100%; }
 /* ---------- Footer ---------- */
 .site-footer {
   position: relative;
+  /* Clip only sideways (the clouds are wider than the screen). Clipping vertically
+     would slice the card's soft shadow into a hard line where it nears the top. */
   overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   background: var(--canvas);
   /* Tall enough for the cloud frame and the card; measured from the design */
   min-height: max(32vw, 600px);
@@ -32,6 +36,20 @@ img { max-width: 100%; }
 .footer-cloud-sky { left: -5.7vw; top: 4.2vw; width: 109.5vw; aspect-ratio: 2747 / 754; }
 .footer-cloud-sky path { fill: var(--canvas); }
 .footer-stage { position: relative; z-index: 1; min-height: inherit; --footer-line: max(19.6vw, 200px); }
+
+/* Phones: the card fills the width (24px either side), the clouds are enlarged so their
+   scalloped edge sits just above the card, and the footer ends a short way below it */
+@media (max-width: 600px) {
+  .site-footer {
+    --card-w: calc(100vw - 48px);
+    --card-top: 30px;
+    min-height: calc(var(--card-top) + var(--card-w) * 1.2353 + 88px);
+  }
+  .footer-stage { --footer-line: calc(var(--card-top) + var(--card-w) * 0.6176 + 10px); }
+  .footer-cloud-cream { left: -80vw; top: 0; width: 260vw; }
+  .footer-cloud-sky   { left: -79vw; top: 4.7vw; width: 259vw; }
+  .site-footer .footer-card { width: var(--card-w); }
+}
 
 /* "Contact me ✦" ticker: sits across the lower cloud tails, as in the design */
 .contact-ticker {
@@ -314,9 +332,146 @@ section[id], footer[id] { scroll-margin-top: 110px; }
 .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -6px rgba(38, 38, 38, 0.5); }
 .nav-logo:focus-visible, .nav-link:focus-visible, .nav-cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
 
-@media (max-width: 560px) {
-  .site-nav { padding: 8px 8px 8px 12px; }
-  .nav-link { display: none; }
-  .nav-cta { padding: 12px 16px; font-size: 14px; }
+/* Menu button and sheet: only used on tablets and phones (see below) */
+.nav-toggle, .nav-sheet, .nav-backdrop { display: none; }
+
+/* ---------- Tablets and phones: hamburger menu ----------
+   The links leave the bar; a round button opens them in a sheet that grows down out of
+   the pill, while the page behind blurs. */
+@media (max-width: 1024px) {
+  .site-nav {
+    flex-wrap: wrap;
+    row-gap: 0;
+    padding: 8px 8px 8px 12px;
+    /* A fixed radius (half the bar's height) instead of 999px, so it can ease smoothly
+       into the sheet's softer corners */
+    border-radius: 30px;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease, border-radius 0.35s ease;
+  }
+  .nav-links { display: none; }
   .nav-logo { width: 34px; height: 34px; }
+
+  .nav-toggle {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1.5px solid var(--ink);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease;
+  }
+  .nav-toggle:hover { background: rgba(38, 38, 38, 0.06); }
+  .nav-toggle:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  /* Three bars that turn into an × (the middle one fades out) */
+  .nav-toggle-icon { position: relative; width: 18px; height: 12px; }
+  .nav-toggle-icon span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease, top 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .nav-toggle-icon span:nth-child(1) { top: 0; }
+  .nav-toggle-icon span:nth-child(2) { top: 5.25px; }
+  .nav-toggle-icon span:nth-child(3) { top: 10.5px; }
+  .site-nav.is-open .nav-toggle-icon span:nth-child(1) { top: 5.25px; transform: rotate(45deg); }
+  .site-nav.is-open .nav-toggle-icon span:nth-child(2) { opacity: 0; }
+  .site-nav.is-open .nav-toggle-icon span:nth-child(3) { top: 5.25px; transform: rotate(-45deg); }
+
+  /* The sheet: its height opens from 0 (grid-rows trick), and its contents come into
+     focus from a soft blur, as in the reference */
+  .nav-sheet {
+    display: grid;
+    grid-template-rows: 0fr;
+    width: 100%;
+    transition: grid-template-rows 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .nav-sheet-inner {
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    filter: blur(6px);
+    transform: translateY(-8px);
+    visibility: hidden;
+    transition: opacity 0.2s ease, filter 0.25s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.35s;
+  }
+  .nav-sheet-links { display: flex; flex-direction: column; padding: 14px 4px 0; }
+  .nav-sheet-link {
+    padding: 14px 8px;
+    border-radius: 14px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.2;
+    color: var(--ink);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.2s ease;
+  }
+  .nav-sheet-link:hover, .nav-sheet-link:active { background: rgba(38, 38, 38, 0.06); }
+  .nav-sheet-rule { height: 1px; margin: 10px 8px 16px; border: 0; background: rgba(38, 38, 38, 0.15); }
+  .nav-sheet-cta {
+    display: block;
+    margin: 0 0 4px;
+    padding: 16px 22px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--cloud);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-sheet-link:focus-visible, .nav-sheet-cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  /* Open */
+  .site-nav.is-open { border-radius: 28px; background: rgba(255, 249, 241, 0.94); box-shadow: 0 18px 40px -16px rgba(34, 32, 90, 0.35); }
+  .site-nav.is-open .nav-sheet { grid-template-rows: 1fr; }
+  .site-nav.is-open .nav-sheet-inner {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    visibility: visible;
+    transition: opacity 0.25s ease 0.05s, filter 0.3s ease 0.05s, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s;
+  }
+
+  /* The page behind: a light blur, like a slightly misted mirror, so the page stays
+     readable in shape but steps back. Tapping it closes the menu. */
+  .nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 59;
+    background: rgba(227, 227, 255, 0.08);
+    -webkit-backdrop-filter: blur(1.5px);
+    backdrop-filter: blur(1.5px);
+    /* Swipes on the page behind don't scroll it while the menu is open */
+    touch-action: none;
+    overscroll-behavior: contain;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+  }
+  .nav-open .nav-backdrop { opacity: 1; visibility: visible; transition: opacity 0.3s ease, visibility 0s; }
+  /* No overflow: hidden on the page here: with the homepage's full-height body it
+     resets the scroll position to the top. Scrolling is blocked by the script instead. */
+}
+
+@media (max-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .site-nav, .nav-toggle-icon span, .nav-sheet, .nav-sheet-inner,
+  .site-nav.is-open .nav-sheet-inner, .nav-backdrop, .nav-open .nav-backdrop { transition: none; }
+  .nav-sheet-inner { filter: none; transform: none; }
 }

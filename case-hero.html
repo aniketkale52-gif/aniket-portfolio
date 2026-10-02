@@ -19,7 +19,8 @@
 <link rel="stylesheet" href="css/case-study.css">
 </head>
 <body>
-<!-- Sticky navbar: frosted cream pill that blurs whatever scrolls beneath it -->
+<!-- Sticky navbar: frosted cream pill that blurs whatever scrolls beneath it.
+     On tablets and phones it shows a menu button instead of the links. -->
 <nav class="site-nav" aria-label="Main">
   <a class="nav-logo" href="index.html" aria-label="Aniket Kale, home">
     <img src="images/logo-ak.webp" alt="" width="160" height="158">
@@ -29,7 +30,22 @@
     <a class="nav-link" href="index.html#experience">Experience</a>
     <a class="nav-cta" href="#contact">Connect With Me</a>
   </div>
+  <!-- Tablets and phones: the links move into a sheet that drops down from the pill -->
+  <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navSheet" aria-label="Open menu">
+    <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+  </button>
+  <div class="nav-sheet" id="navSheet">
+    <div class="nav-sheet-inner">
+      <div class="nav-sheet-links">
+        <a class="nav-sheet-link" href="index.html#work">Work</a>
+        <a class="nav-sheet-link" href="index.html#experience">Experience</a>
+      </div>
+      <hr class="nav-sheet-rule">
+      <a class="nav-sheet-cta" href="#contact">Connect With Me</a>
+    </div>
+  </div>
 </nav>
+<div class="nav-backdrop" aria-hidden="true"></div>
 
 <main class="cs" id="top">
   <!-- Intro -->
