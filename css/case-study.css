@@ -143,6 +143,9 @@ body {
 .cs-stats + .cs-section,
 .cs-role + .cs-section { margin-top: clamp(48px, 5vw, 64px); }
 
+/* Short, wide banner (e.g. a process strip) */
+.cs-media--strip { aspect-ratio: 9060 / 2736; }
+
 /* Copy with more air between items (e.g. a list of "How might we" questions) */
 .cs-copy--spaced { gap: 28px; }
 
