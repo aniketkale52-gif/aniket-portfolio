@@ -1,0 +1,171 @@
+/* Shared by every case study page (case-*.html). Loaded after css/site.css. */
+
+/* ---------- Case study page ---------- */
+:root {
+  --cs-width: 1180px;          /* lines up with the navbar */
+  --cs-section-gap: clamp(72px, 9vw, 140px);
+  --cs-radius: 24px;
+  --cs-board: #F4F4F4;         /* dotted "whiteboard" behind research images */
+  --cs-dot: #C9C9C9;
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: var(--cloud);
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+.cs {
+  width: min(var(--cs-width), calc(100% - 2 * var(--gutter)));
+  margin-inline: auto;
+  padding-top: clamp(120px, 12vw, 150px);
+  padding-bottom: var(--cs-section-gap);
+}
+
+/* Zero-specificity reset so component margins below always win */
+:where(.cs) p, :where(.cs) ul { margin: 0; }
+.cs strong { font-weight: 600; }
+
+/* Two columns: heading (or intro) on the left, copy on the right */
+.cs-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  column-gap: clamp(32px, 6vw, 100px);
+  row-gap: 20px;
+  align-items: start;
+}
+
+.cs-copy {
+  font-size: 15px;
+  line-height: 1.4;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.cs-copy h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
+.cs-copy > h3 + p { margin-top: -10px; }
+.cs-stack h3 { margin-bottom: 6px; }
+.cs-list { padding-left: 18px; }
+.cs-list li + li { margin-top: 2px; }
+.cs-label { text-transform: uppercase; }
+.cs-stack { display: flex; flex-direction: column; }
+
+/* ---------- Intro ---------- */
+.cs-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+.cs-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.cs-tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--canvas); }
+
+.cs-title {
+  margin: 0;
+  font-size: clamp(24px, 2vw, 28px);
+  font-weight: 600;
+  line-height: 1.2;
+  max-width: 20em;
+}
+
+/* ---------- Figures ---------- */
+.cs-figure { margin: 0; display: flex; flex-direction: column; gap: 18px; }
+.cs-media {
+  position: relative;
+  overflow: hidden;
+  border: 1.5px solid var(--ink);
+  border-radius: var(--cs-radius);
+  background: var(--cs-board);
+  aspect-ratio: var(--ratio, 16 / 9);
+}
+/* Dotted whiteboard texture for research boards */
+.cs-media--board {
+  background-color: var(--cs-board);
+  background-image: radial-gradient(var(--cs-dot) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+.cs-media img, .cs-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* Placeholder label until the real image is added */
+.cs-placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(38, 38, 38, 0.55);
+}
+.cs-figure figcaption { font-size: 15px; line-height: 1.4; text-align: center; }
+
+/* Side-by-side figures: narrow + wide, or wide + narrow (as in the design: 360 / 684) */
+.cs-pair { display: grid; gap: clamp(20px, 3vw, 34px); align-items: start; }
+.cs-pair--narrow-wide { grid-template-columns: minmax(0, 1fr) minmax(0, 1.9fr); }
+.cs-pair--wide-narrow { grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr); }
+/* Wide box is 16:9 like its image; the narrow box (1 : 1.9 column width) matches
+   its height: 16/9 ÷ 1.9 ≈ 0.9357 */
+.cs-pair .cs-media { aspect-ratio: 16 / 9; }
+.cs-pair--narrow-wide > :first-child .cs-media,
+.cs-pair--wide-narrow > :last-child .cs-media { aspect-ratio: 0.9357; }
+.cs-media img.is-top { object-position: top; }
+
+/* ---------- Role, meta and stats ---------- */
+.cs-meta { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 16px 24px; margin: 0; }
+.cs-meta dt { font-size: 14px; text-transform: uppercase; line-height: 1.3; }
+.cs-meta dd { margin: 6px 0 0; font-size: 14px; font-weight: 600; line-height: 1.3; }
+
+.cs-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.cs-stat {
+  padding: 18px 22px 20px;
+  border: 1.5px solid var(--ink);
+  border-radius: 16px;
+  background: #fff;
+}
+.cs-stat svg { display: block; width: 16px; height: 16px; margin-bottom: 10px; }
+.cs-stat-label { display: block; font-size: 14px; line-height: 1.3; }
+.cs-stat-value { display: block; margin-top: 6px; font-family: var(--font-display); font-weight: 700; font-size: 15px; line-height: 1.2; }
+
+/* ---------- Vertical rhythm ---------- */
+.cs-intro + .cs-figure { margin-top: clamp(48px, 6vw, 80px); }
+.cs-role { margin-top: clamp(56px, 7vw, 100px); }
+.cs-stats { margin-top: clamp(40px, 5vw, 64px); }
+.cs-section { margin-top: var(--cs-section-gap); }
+.cs-section > .cs-figure, .cs-section > .cs-pair { margin-top: clamp(48px, 6vw, 80px); }
+.cs-stats + .cs-section,
+.cs-role + .cs-section { margin-top: clamp(48px, 5vw, 64px); }
+
+/* Copy with more air between items (e.g. a list of "How might we" questions) */
+.cs-copy--spaced { gap: 28px; }
+
+.cs-heading { margin: 0; font-size: clamp(22px, 1.8vw, 26px); font-weight: 600; line-height: 1.2; }
+
+/* ---------- Footer on a cream page ----------
+   The cream outline cloud would vanish into the page, so it is filled lavender instead
+   (it reaches the screen edges, so the curve runs edge to edge). The page cream runs down
+   into the clouds, and the background turns lavender inside them; 21.5vw sits within the
+   clouds' solid band at every width, since the clouds scale with vw. */
+.site-footer--on-cream { background: linear-gradient(var(--cloud) 21.5vw, var(--canvas) 21.5vw); }
+.site-footer--on-cream .footer-cloud-cream path { fill: var(--canvas); }
+
+/* ---------- Smaller screens ---------- */
+@media (max-width: 900px) {
+  .cs-row { grid-template-columns: minmax(0, 1fr); }
+  .cs-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cs-meta { justify-content: start; }
+}
+@media (max-width: 640px) {
+  .cs-pair--narrow-wide, .cs-pair--wide-narrow { grid-template-columns: minmax(0, 1fr); }
+  .cs-meta { grid-template-columns: repeat(2, auto); }
+}
+@media (max-width: 380px) {
+  .cs-stats { grid-template-columns: minmax(0, 1fr); }
+}
