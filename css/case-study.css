@@ -157,6 +157,9 @@ body {
    into the clouds, and the background turns lavender inside them; 21.5vw sits within the
    clouds' solid band at every width, since the clouds scale with vw. */
 .site-footer--on-cream { background: linear-gradient(var(--cloud) 21.5vw, var(--canvas) 21.5vw); }
+/* The lavender cloud runs ~2vw past the footer's bottom, which lengthens the page and leaves
+   a cream strip under the footer. Clip the clouds to the footer (the card isn't affected). */
+.site-footer--on-cream .footer-clouds { overflow: hidden; }
 .site-footer--on-cream .footer-cloud-cream path { fill: var(--canvas); }
 
 /* ---------- Smaller screens ---------- */
