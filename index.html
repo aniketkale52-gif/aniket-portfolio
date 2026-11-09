@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&family=Space+Grotesk:wght@400;500;600&display=swap">
 <!-- Shared tokens, navbar and footer -->
 <link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/work-cards.css">
 <style>
   /* Layout: a full-screen cloud frame. Cream covers the whole first screen,
      with a cloud-edged gap in the middle where the lavender sky shows through. */
@@ -45,12 +46,6 @@
     --num-2: #E0E4FC;
     --num-3: #E4F0FC;
     --num-4: #D8F4F0;
-    /* Work card panel tints */
-    --panel-1: #FBEBEA;
-    --panel-2: #DBF5F0;
-    --panel-3: #FFE3FB;
-    --panel-4: #E3F2FF;
-    --stat-stroke: #7D7D7D;
     --rail: #B9B9DA;
     --quote-fill: #FFE7A9;
     --avatar-empty: #D1D1E7;
@@ -372,229 +367,6 @@
     .stat { justify-content: flex-start; gap: 16px; padding: 18px 28px; }
     .stat-num { font-size: 44px; line-height: 1.1; min-width: 2.3em; }
     .stat-label { font-size: 16px; }
-  }
-
-  /* ---------- Work ---------- */
-  .work {
-    position: relative;
-    margin-top: clamp(40px, 8vw, 120px);
-  }
-
-  /* The heading's stage: one screen tall, pinned while the cards pass over it */
-  .work-pin {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    display: grid;
-    place-items: center;
-    z-index: 0;
-    pointer-events: none;
-  }
-  @supports (height: 100svh) { .work-pin { height: 100svh; } }
-
-  .work-heading {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: clamp(48px, 3vw + 18px, 74px);
-    line-height: 1.2;
-    color: var(--ink);
-    transform: scale(var(--work-scale, 1));
-    transform-origin: center;
-    will-change: transform;
-  }
-
-  /* Cards start one screen up so they slide over the pinned heading */
-  .work-cards {
-    position: relative;
-    z-index: 1;
-    margin-top: -100vh;
-    padding-top: 75vh;
-    padding-bottom: 45vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 55vh;
-  }
-  @supports (height: 100svh) {
-    .work-cards { margin-top: -100svh; padding-top: 75svh; padding-bottom: 45svh; gap: 55svh; }
-  }
-
-  .work-card {
-    position: relative;
-    width: 100%;
-    max-width: 1190px;
-    display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
-    gap: clamp(14px, 1.6vw, 22px);
-    transform: rotate(var(--tilt, 0deg)) scale(var(--grow, 1));
-    transform-origin: center;
-    will-change: transform;
-  }
-
-  .work-media {
-    position: relative;
-    min-height: 100%;
-    aspect-ratio: 4 / 3;
-    border-radius: 24px;
-    overflow: hidden;
-    background: var(--panel);
-    border: 1.5px solid var(--ink);
-  }
-  /* Case study clip: fills the box edge to edge, cropped from the centre */
-  .work-media video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
-
-  /* Whole card is a link to its case study (an invisible layer over the card) */
-  .work-link { position: absolute; inset: 0; z-index: 2; border-radius: 24px; }
-  .work-link:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
-
-  .work-panel {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: clamp(20px, 2vw, 28px);
-    background: var(--panel);
-    border: 1.5px solid var(--ink);
-    border-radius: 24px;
-  }
-
-  .tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
-  .tag {
-    padding: 8px 13px;
-    background: #FFFFFF;
-    border-radius: 12px;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  .work-title {
-    margin: 6px 0 0;
-    font-family: var(--font-body);
-    font-weight: 600;
-    font-size: 24px;
-    line-height: 1.2;
-    color: var(--ink);
-    text-wrap: balance;
-  }
-
-  .work-desc {
-    margin: -6px 0 0;
-    max-width: 44em;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 1.35;
-    color: var(--ink);
-  }
-
-  .card-stats {
-    margin-top: auto;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(12px, 1.4vw, 20px);
-  }
-  .card-stat {
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 20px;
-    background: #FFF9F1;
-    border: 1px solid var(--stat-stroke);
-    border-radius: 20px;
-  }
-  .card-stat-num {
-    flex-shrink: 0;
-    padding-right: 14px;
-    border-right: 1px solid color-mix(in srgb, var(--stat-stroke) 45%, transparent);
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: 38px;
-    line-height: 1.5;
-    letter-spacing: -0.007em;
-    color: var(--ink);
-    font-variant-numeric: tabular-nums;
-  }
-  .card-stat-label {
-    min-width: 0;
-    font-family: var(--font-body);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.4;
-    color: var(--ink);
-  }
-
-  /* Narrow screens: image on top, details below */
-  @media (max-width: 820px) {
-    .work-card { grid-template-columns: 1fr; }
-    .work-media { min-height: 0; }
-    .card-stat { padding: 12px 14px; gap: 12px; }
-    .card-stat-num { padding-right: 12px; }
-  }
-  @media (max-width: 420px) {
-    .card-stats { grid-template-columns: 1fr; }
-  }
-
-  /* ---------- "View more" cursor pill (case study cards, mouse only) ---------- */
-  .view-cursor {
-    position: fixed;
-    left: 0;
-    top: 0;
-    z-index: 50;
-    pointer-events: none;
-    opacity: 0;
-    transform: translate3d(-200px, -200px, 0);
-  }
-  .view-cursor-pill {
-    position: relative;
-    display: block;
-    width: 178px;
-    overflow: hidden;
-    padding-block: 12px;
-    background: var(--cloud);
-    border: 1.5px solid var(--ink);
-    border-radius: 999px;
-    transform: translate(-50%, -50%) scale(0.4);
-    transition: transform 0.28s cubic-bezier(.2,.8,.2,1);
-  }
-  .view-cursor.is-on { opacity: 1; }
-  .view-cursor.is-on .view-cursor-pill { transform: translate(-50%, -50%) scale(1); }
-
-  .view-cursor-track {
-    display: flex;
-    width: max-content;
-    animation: view-ticker 9s linear infinite;
-  }
-  .view-cursor-track span {
-    padding-left: 0.6em;
-    font-family: var(--font-body);
-    font-weight: 500;
-    font-size: 15px;
-    line-height: 1;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink);
-    white-space: nowrap;
-  }
-  @keyframes view-ticker { to { transform: translateX(-50%); } }
-
-  @media (hover: hover) and (pointer: fine) {
-    .work-card, .work-link { cursor: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .view-cursor-track { animation: none; }
   }
 
   /* ---------- Experience ---------- */
@@ -1018,7 +790,7 @@
   </section>
 
   <!-- Work: the heading stays pinned mid-screen and shrinks as you scroll;
-       four project cards scroll up over it, tilted at first and straightening at the centre -->
+       the project cards scroll up over it, tilted at first and straightening at the centre -->
   <section class="work" id="work" aria-labelledby="workTitle">
     <div class="work-pin">
       <h2 class="work-heading" id="workTitle">Work</h2>
@@ -1072,6 +844,11 @@
           <p class="work-desc">A collection of conversion-focused hero experiences designed to communicate value faster, create stronger visual hierarchy, and drive users toward action.</p>
           <div class="card-stats"><div class="card-stat"><span class="card-stat-num">8+</span><span class="card-stat-label">Happy Clients</span></div><div class="card-stat"><span class="card-stat-num">34%</span><span class="card-stat-label">New Visitors</span></div></div>
         </div>
+      </article>
+      <article class="work-card work-all">
+        <a class="work-link" href="work.html" aria-label="View all projects"></a>
+        <h3 class="work-all-title">View all<br>projects</h3>
+        <span class="work-all-btn">View all <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 11 11 3M4.5 3H11v6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
       </article>
 
     </div>
@@ -1411,107 +1188,6 @@
 </script>
 
 <script>
-  // Work section: heading shrinks as the section scrolls by (and grows back on
-  // the way up); each card tilts as it enters and straightens at the centre.
-  (function () {
-    var section = document.querySelector(".work");
-    var heading = document.querySelector(".work-heading");
-    var cards = Array.prototype.slice.call(document.querySelectorAll(".work-card"));
-    if (!section || !heading) return;
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var queued = false;
-
-    function update() {
-      queued = false;
-      var vh = window.innerHeight;
-      var r = section.getBoundingClientRect();
-      // 0 when the section's top reaches the top of the screen, 1 at its end
-      var total = Math.max(1, r.height - vh);
-      var p = Math.min(1, Math.max(0, -r.top / total));
-      heading.style.setProperty("--work-scale", (1 - p * 0.55).toFixed(4));
-
-      if (reduce) return;
-      for (var i = 0; i < cards.length; i++) {
-        var c = cards[i].getBoundingClientRect();
-        // -1 below the screen centre ... 0 at centre ... +1 above
-        var d = ((vh / 2) - (c.top + c.height / 2)) / vh;
-        d = Math.max(-1, Math.min(1, d));
-        var dir = i % 2 === 0 ? -1 : 1;
-        var tilt = d < 0 ? dir * 5 * -d : dir * 2 * d;
-        var grow = 1 - Math.min(0.06, Math.abs(d) * 0.06);
-        cards[i].style.setProperty("--tilt", tilt.toFixed(2) + "deg");
-        cards[i].style.setProperty("--grow", grow.toFixed(4));
-      }
-    }
-
-    function queue() { if (!queued) { queued = true; requestAnimationFrame(update); } }
-    window.addEventListener("scroll", queue, { passive: true });
-    window.addEventListener("resize", queue);
-    update();
-  })();
-</script>
-
-<script>
-  // Over a case study card, the mouse cursor becomes the "View more" pill.
-  (function () {
-    var cursor = document.querySelector(".view-cursor");
-    var cards = document.querySelectorAll(".work-card");
-    if (!cursor || !cards.length) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-
-    var x = -200, y = -200, tx = -200, ty = -200, running = false, on = false;
-
-    function tick() {
-      x += (tx - x) * 0.35;
-      y += (ty - y) * 0.35;
-      cursor.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px,0)";
-      if (Math.abs(tx - x) > 0.3 || Math.abs(ty - y) > 0.3) requestAnimationFrame(tick);
-      else running = false;
-    }
-    function move(e) {
-      tx = e.clientX; ty = e.clientY;
-      if (!on) { x = tx; y = ty; }
-      if (!running) { running = true; requestAnimationFrame(tick); }
-    }
-
-    Array.prototype.forEach.call(cards, function (card) {
-      card.addEventListener("pointerenter", function (e) {
-        if (e.pointerType !== "mouse") return;
-        move(e); on = true; cursor.classList.add("is-on");
-      });
-      card.addEventListener("pointermove", function (e) { if (e.pointerType === "mouse") move(e); });
-      card.addEventListener("pointerleave", function () { on = false; cursor.classList.remove("is-on"); });
-    });
-    // Keep the pill under the pointer while the page scrolls under a still mouse
-    window.addEventListener("scroll", function () {
-      if (!on) return;
-      var el = document.elementFromPoint(tx, ty);
-      if (!el || !el.closest(".work-card")) { on = false; cursor.classList.remove("is-on"); }
-    }, { passive: true });
-  })();
-</script>
-
-<script>
-  // Case study clips: play only while on screen (saves battery and data),
-  // and stay paused on the poster frame for visitors who prefer less motion.
-  (function () {
-    var vids = Array.prototype.slice.call(document.querySelectorAll(".work-media video"));
-    if (!vids.length) return;
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    vids.forEach(function (v) { v.muted = true; if (reduce) { v.removeAttribute("autoplay"); v.pause(); } });
-    if (reduce || !("IntersectionObserver" in window)) return;
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        var v = e.target;
-        if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-        else v.pause();
-      });
-    }, { threshold: 0.15 });
-    vids.forEach(function (v) { io.observe(v); });
-  })();
-</script>
-
-<script>
   // Testimonials: clicking an avatar shows that person's quote.
   (function () {
     var root = document.querySelector(".testimonials");
@@ -1541,6 +1217,7 @@
   })();
 </script>
 
+<script src="js/work-cards.js"></script>
 <script src="js/site.js"></script>
 </body>
 </html>

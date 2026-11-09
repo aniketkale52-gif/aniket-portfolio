@@ -26,7 +26,7 @@ body {
 }
 
 /* Zero-specificity reset so component margins below always win */
-:where(.cs) p, :where(.cs) ul { margin: 0; }
+:where(.cs) p, :where(.cs) ul, :where(.cs) ol { margin: 0; }
 .cs strong { font-weight: 600; }
 
 /* Two columns: heading (or intro) on the left, copy on the right */
@@ -45,6 +45,7 @@ body {
   flex-direction: column;
   gap: 16px;
 }
+.cs-copy a { color: inherit; text-underline-offset: 2px; }
 .cs-copy h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.4; }
 .cs-copy > h3 + p { margin-top: -10px; }
 .cs-stack h3 { margin-bottom: 6px; }
@@ -133,6 +134,55 @@ body {
 .cs-stat svg { display: block; width: 16px; height: 16px; margin-bottom: 10px; }
 .cs-stat-label { display: block; font-size: 14px; line-height: 1.3; }
 .cs-stat-value { display: block; margin-top: 6px; font-family: var(--font-display); font-weight: 700; font-size: 15px; line-height: 1.2; }
+
+/* Highlights with a sentence instead of a number: title first, then the description */
+.cs-stats--text .cs-stat-value { margin: 0 0 6px; }
+
+/* ---------- Sticky dock (case studies with a live project) ---------- */
+.cs-dock {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  background: var(--ink);
+  border-radius: 999px;
+  box-shadow: 0 12px 28px -12px rgba(38, 38, 38, 0.6);
+  transform: translateX(-50%);
+  transition: transform 0.35s cubic-bezier(.2,.8,.2,1), opacity 0.25s ease, visibility 0.35s;
+}
+/* Slides away over the footer, whose card has buttons of its own */
+.cs-dock.is-away { transform: translate(-50%, calc(100% + 28px)); opacity: 0; visibility: hidden; }
+
+.cs-dock-logo { flex-shrink: 0; display: block; width: 44px; height: 44px; border-radius: 50%; overflow: hidden; background: var(--cloud); }
+.cs-dock-logo img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) invert(0.92) contrast(0.85) brightness(1.02); }
+
+.cs-dock-cta {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 20px;
+  background: var(--canvas);
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+.cs-dock-cta:hover { background: var(--cloud); }
+.cs-dock-cta svg { display: block; width: 14px; height: 14px; }
+.cs-dock a:focus-visible { outline: 2px solid var(--cloud); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-dock, .cs-dock-cta { transition: none; }
+}
 
 /* ---------- Vertical rhythm ---------- */
 .cs-intro + .cs-figure { margin-top: clamp(48px, 6vw, 80px); }

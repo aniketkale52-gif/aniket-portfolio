@@ -17,3 +17,13 @@
   }, { threshold: 0.15 });
   vids.forEach(function (v) { io.observe(v); });
 })();
+
+// Sticky dock: slides away once the footer comes into view.
+(function () {
+  var dock = document.querySelector(".cs-dock");
+  var footer = document.querySelector(".site-footer");
+  if (!dock || !footer || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(function (entries) {
+    dock.classList.toggle("is-away", entries[0].isIntersecting);
+  }, { rootMargin: "0px 0px -60px 0px" }).observe(footer);
+})();
